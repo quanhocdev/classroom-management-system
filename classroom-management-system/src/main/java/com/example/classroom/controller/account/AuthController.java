@@ -1,57 +1,82 @@
-package com.example.classroom.controller.account;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import com.example.classroom.dto.account.GoogleLoginRequestDTO;
-import com.example.classroom.dto.account.LocalLoginRequestDTO;
-import com.example.classroom.dto.account.LoginResponseDTO;
-import com.example.classroom.dto.account.RegisterRequestDTO;
-import com.example.classroom.service.account.AuthService;
+// package com.example.classroom.controller.account;
 
 
-@RestController
-@RequestMapping("/api/auth")
-public class AuthController {
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.stereotype.Controller;
+// import org.springframework.ui.Model;
+// import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.PostMapping;
+// import org.springframework.web.bind.annotation.RequestBody;
+// import org.springframework.web.bind.annotation.RequestMapping;
 
 
-    @Autowired
-    private AuthService authService;
+// import com.example.classroom.dto.account.RegisterRequestDTO;
+// import com.example.classroom.service.account.AuthService;
 
 
 
-    @PostMapping("/register")
-public ResponseEntity<?> register(
-    @RequestBody RegisterRequestDTO request
-){
-    return ResponseEntity.ok(
-        authService.register(request)
-    );
-}
-
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(
-            @RequestBody LocalLoginRequestDTO request
-    ) {
-
-        return ResponseEntity.ok(
-            authService.login(request)
-        );
-
-    }
+// @Controller
+// @RequestMapping("/auth")
+// public class AuthController {
 
 
 
-    @PostMapping("/google")
-    public ResponseEntity<LoginResponseDTO> googleLogin(
-            @RequestBody GoogleLoginRequestDTO request
-    ) {
+//     @Autowired
+//     private AuthService authService;
 
-        return ResponseEntity.ok(
-            authService.googleLogin(request)
-        );
 
-    }
 
-}
+//     /*
+//      * Hiển thị trang login
+//      */
+//     @GetMapping("/login")
+//     public String loginPage() {
+
+//         return "account/login";
+
+//     }
+
+
+
+
+
+//     /*
+//      * Hiển thị trang register
+//      */
+//     @GetMapping("/register")
+//     public String registerPage() {
+
+//         return "account/register";
+
+//     }
+
+
+
+
+
+//     /*
+//      * Xử lý đăng ký
+//      */
+//     @PostMapping("/register")
+//     public String register(
+//             @RequestBody RegisterRequestDTO request,
+//             Model model
+//     ) {
+
+
+//         authService.register(request);
+
+
+
+//         model.addAttribute(
+//                 "message",
+//                 "Đăng ký thành công"
+//         );
+
+
+
+//         return "account/login";
+
+//     }
+
+// }

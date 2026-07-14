@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Register</title>
@@ -12,25 +13,25 @@
 
     <form id="registerForm">
       <div>
-        <label>Username</label>
+        <label> Username </label>
 
-        <input id="username" required />
+        <input id="username" name="username" type="text" required />
       </div>
 
       <br />
 
       <div>
-        <label>Email</label>
+        <label> Email </label>
 
-        <input id="email" type="email" required />
+        <input id="email" name="email" type="email" required />
       </div>
 
       <br />
 
       <div>
-        <label>Password</label>
+        <label> Password </label>
 
-        <input id="password" type="password" required />
+        <input id="password" name="password" type="password" required />
       </div>
 
       <br />
@@ -71,7 +72,7 @@
               document.getElementById("message").innerText =
                 "Đăng ký thành công";
 
-              setTimeout(function () {
+              setTimeout(() => {
                 window.location.href = "/auth/login";
               }, 1000);
             } else {

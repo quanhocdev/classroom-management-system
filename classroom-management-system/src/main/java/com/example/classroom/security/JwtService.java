@@ -1,142 +1,142 @@
-package com.example.classroom.security;
+// package com.example.classroom.security;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
+// import java.nio.charset.StandardCharsets;
+// import java.util.Date;
 
-import javax.crypto.SecretKey;
+// import javax.crypto.SecretKey;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+// import org.springframework.beans.factory.annotation.Value;
+// import org.springframework.stereotype.Service;
 
-import com.example.classroom.model.Users;
+// import com.example.classroom.model.Users;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-
-
-@Service
-public class JwtService {
+// import io.jsonwebtoken.Claims;
+// import io.jsonwebtoken.Jwts;
+// import io.jsonwebtoken.security.Keys;
 
 
-    private final SecretKey secretKey;
+// @Service
+// public class JwtService {
 
 
-    private final long expiration;
+//     private final SecretKey secretKey;
 
 
-    public JwtService(
-            @Value("${jwt.secret}") String secret,
-            @Value("${jwt.expiration}") long expiration
-    ) {
-
-        this.secretKey = Keys.hmacShaKeyFor(
-                secret.getBytes(StandardCharsets.UTF_8)
-        );
-
-        this.expiration = expiration;
-    }
+//     private final long expiration;
 
 
+//     public JwtService(
+//             @Value("${jwt.secret}") String secret,
+//             @Value("${jwt.expiration}") long expiration
+//     ) {
 
-    // Sinh JWT
-    public String generateToken(Users user) {
+//         this.secretKey = Keys.hmacShaKeyFor(
+//                 secret.getBytes(StandardCharsets.UTF_8)
+//         );
 
-
-        return Jwts.builder()
-
-                .subject(user.getUsername())
-
-                .claim(
-                    "userId",
-                    user.getId()
-                )
-
-                .claim(
-                    "role",
-                    user.getRole().name()
-                )
-
-                .issuedAt(
-                    new Date()
-                )
-
-                .expiration(
-                    new Date(
-                        System.currentTimeMillis()
-                        + expiration
-                    )
-                )
-
-                .signWith(secretKey)
-
-                .compact();
-
-    }
+//         this.expiration = expiration;
+//     }
 
 
 
-    // Lấy username
-    public String extractUsername(String token) {
-
-        return extractClaims(token)
-                .getSubject();
-
-    }
+//     // Sinh JWT
+//     public String generateToken(Users user) {
 
 
+//         return Jwts.builder()
 
-    // Lấy userId
-    public Long extractUserId(String token) {
+//                 .subject(user.getUsername())
 
-        return extractClaims(token)
-                .get("userId", Long.class);
+//                 .claim(
+//                     "userId",
+//                     user.getId()
+//                 )
 
-    }
+//                 .claim(
+//                     "role",
+//                     user.getRole().name()
+//                 )
 
+//                 .issuedAt(
+//                     new Date()
+//                 )
 
+//                 .expiration(
+//                     new Date(
+//                         System.currentTimeMillis()
+//                         + expiration
+//                     )
+//                 )
 
-    // Lấy role
-    public String extractRole(String token) {
+//                 .signWith(secretKey)
 
-        return extractClaims(token)
-                .get("role", String.class);
+//                 .compact();
 
-    }
-
-
-
-    // Kiểm tra token
-    public boolean isValid(String token) {
-
-        try {
-
-            extractClaims(token);
-
-            return true;
-
-        } catch(Exception e) {
-
-            return false;
-
-        }
-    }
+//     }
 
 
 
-    private Claims extractClaims(String token) {
+//     // Lấy username
+//     public String extractUsername(String token) {
+
+//         return extractClaims(token)
+//                 .getSubject();
+
+//     }
 
 
-        return Jwts.parser()
 
-                .verifyWith(secretKey)
+//     // Lấy userId
+//     public Long extractUserId(String token) {
 
-                .build()
+//         return extractClaims(token)
+//                 .get("userId", Long.class);
 
-                .parseSignedClaims(token)
+//     }
 
-                .getPayload();
 
-    }
 
-}
+//     // Lấy role
+//     public String extractRole(String token) {
+
+//         return extractClaims(token)
+//                 .get("role", String.class);
+
+//     }
+
+
+
+//     // Kiểm tra token
+//     public boolean isValid(String token) {
+
+//         try {
+
+//             extractClaims(token);
+
+//             return true;
+
+//         } catch(Exception e) {
+
+//             return false;
+
+//         }
+//     }
+
+
+
+//     private Claims extractClaims(String token) {
+
+
+//         return Jwts.parser()
+
+//                 .verifyWith(secretKey)
+
+//                 .build()
+
+//                 .parseSignedClaims(token)
+
+//                 .getPayload();
+
+//     }
+
+// }

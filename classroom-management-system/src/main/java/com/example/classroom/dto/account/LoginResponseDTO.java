@@ -2,7 +2,7 @@ package com.example.classroom.dto.account;
 
 public class LoginResponseDTO {
 
-    private String token;
+        private String message;
 
     private String username;
 
@@ -11,17 +11,18 @@ public class LoginResponseDTO {
     public LoginResponseDTO() {
     }
 
-    public LoginResponseDTO(String token, String username, String role) {
-        this.token = token;
+    public LoginResponseDTO(String message, String username, String role) {
+        this.message = message;
         this.username = username;
         this.role = role;
     }
 
-    public String getToken() {
-        return token;
+    public String getMessage() {
+        return message;
     }
-    public void setToken(String token) {
-        this.token = token;
+
+    public void setMessage(String message) {
+        this.message = message;
     }
     public String getUsername() {
         return username;

@@ -1,13 +1,19 @@
 package com.example.classroom.repository;
 
-import com.example.classroom.model.Users;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import com.example.classroom.model.Users;
+
+
+
+@Repository
 public interface UserRepository 
         extends JpaRepository<Users, Long> {
+
 
 
     Optional<Users> findByUsername(
@@ -15,14 +21,11 @@ public interface UserRepository
     );
 
 
+
     Optional<Users> findByEmail(
             String email
     );
 
-
-    Optional<Users> findByFirebaseUid(
-            String firebaseUid
-    );
 
 
     boolean existsByUsername(
@@ -30,13 +33,11 @@ public interface UserRepository
     );
 
 
+
     boolean existsByEmail(
             String email
     );
 
 
-    boolean existsByFirebaseUid(
-            String firebaseUid
-    );
 
 }
