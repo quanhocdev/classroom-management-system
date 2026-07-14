@@ -46,3 +46,7 @@ canhbao-b600b-firebase-adminsdk-*.json
 **/uploads/
 # Chặn các file ảnh mẫu trong project
 img/
+
+
+# Firebase
+firebase-service-account.json

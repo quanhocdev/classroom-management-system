@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.classroom.dto.account.GoogleLoginRequestDTO;
 import com.example.classroom.dto.account.LocalLoginRequestDTO;
 import com.example.classroom.dto.account.LoginResponseDTO;
+import com.example.classroom.dto.account.RegisterRequestDTO;
 import com.example.classroom.service.account.AuthService;
 
 
@@ -19,6 +20,15 @@ public class AuthController {
     private AuthService authService;
 
 
+
+    @PostMapping("/register")
+public ResponseEntity<?> register(
+    @RequestBody RegisterRequestDTO request
+){
+    return ResponseEntity.ok(
+        authService.register(request)
+    );
+}
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(

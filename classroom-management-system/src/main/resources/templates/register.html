@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Register</title>
+  </head>
+
+  <body>
+    <h1>Register</h1>
+
+    <form id="registerForm">
+      <div>
+        <label>Username</label>
+
+        <input id="username" required />
+      </div>
+
+      <br />
+
+      <div>
+        <label>Email</label>
+
+        <input id="email" type="email" required />
+      </div>
+
+      <br />
+
+      <div>
+        <label>Password</label>
+
+        <input id="password" type="password" required />
+      </div>
+
+      <br />
+
+      <button type="submit">Register</button>
+    </form>
+
+    <p id="message"></p>
+
+    <script>
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const data = {
+            username: document.getElementById("username").value,
+
+            email: document.getElementById("email").value,
+
+            password: document.getElementById("password").value,
+          };
+
+          try {
+            const response = await fetch("/api/auth/register", {
+              method: "POST",
+
+              headers: {
+                "Content-Type": "application/json",
+              },
+
+              body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              document.getElementById("message").innerText =
+                "Đăng ký thành công";
+
+              setTimeout(function () {
+                window.location.href = "/auth/login";
+              }, 1000);
+            } else {
+              document.getElementById("message").innerText =
+                result.message ?? "Đăng ký thất bại";
+            }
+          } catch (error) {
+            document.getElementById("message").innerText =
+              "Không thể kết nối server";
+
+            console.error(error);
+          }
+        });
+    </script>
+  </body>
+</html>
