@@ -1,18 +1,21 @@
 package com.example.classroom.controller.account;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import com.example.classroom.dto.account.GoogleLoginRequestDTO;
-import com.example.classroom.dto.account.LocalLoginRequestDTO;
-import com.example.classroom.dto.account.LoginResponseDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.example.classroom.dto.account.RegisterRequestDTO;
 import com.example.classroom.service.account.AuthService;
 
 
-@RestController
-@RequestMapping("/api/auth")
+
+@Controller
+@RequestMapping("/auth")
 public class AuthController {
 
 
@@ -21,36 +24,42 @@ public class AuthController {
 
 
 
-    @PostMapping("/register")
-public ResponseEntity<?> register(
-    @RequestBody RegisterRequestDTO request
-){
-    return ResponseEntity.ok(
-        authService.register(request)
-    );
-}
+    /*
+     * Trang đăng nhập
+     *
+     * Spring Security sẽ xử lý POST /login
+     */
+    @GetMapping("/login")
+    public String loginPage() {
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(
-            @RequestBody LocalLoginRequestDTO request
-    ) {
-
-        return ResponseEntity.ok(
-            authService.login(request)
-        );
+        return "account/login";
 
     }
 
 
 
-    @PostMapping("/google")
-    public ResponseEntity<LoginResponseDTO> googleLogin(
-            @RequestBody GoogleLoginRequestDTO request
+    /*
+     * Đăng ký tài khoản
+     */
+    @PostMapping("/register")
+    public String register(
+            @RequestBody RegisterRequestDTO request,
+            Model model
     ) {
 
-        return ResponseEntity.ok(
-            authService.googleLogin(request)
+
+        authService.register(request);
+
+
+
+        model.addAttribute(
+                "message",
+                "Đăng ký thành công"
         );
+
+
+
+        return "account/login";
 
     }
 
