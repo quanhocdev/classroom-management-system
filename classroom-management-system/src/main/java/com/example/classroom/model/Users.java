@@ -31,6 +31,9 @@ public class Users {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "firebase_uid", unique = true)
+    private String firebaseUid;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private UserRole role;
