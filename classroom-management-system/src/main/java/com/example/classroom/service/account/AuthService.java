@@ -12,7 +12,7 @@ import com.example.classroom.model.Users;
 import com.example.classroom.model.enums.UserProvider;
 import com.example.classroom.model.enums.UserRole;
 import com.example.classroom.model.enums.UserStatus;
-
+import com.example.classroom.dto.account.LocalLoginRequestDTO;
 import com.example.classroom.repository.UserRepository;
 
 
@@ -114,4 +114,41 @@ public class AuthService {
 
     }
 
+    public Users login(
+        LocalLoginRequestDTO request
+) {
+
+    Users user =
+        userRepository
+        .findByUsername(request.getUsername())
+        .orElseThrow(
+            () -> new RuntimeException(
+                "Sai username hoặc password"
+            )
+        );
+
+
+    if(!passwordEncoder.matches(
+            request.getPassword(),
+            user.getPassword()
+    )) {
+
+        throw new RuntimeException(
+            "Sai username hoặc password"
+        );
+
+    }
+
+
+    if(user.getStatus() != UserStatus.ACTIVE){
+
+        throw new RuntimeException(
+            "Tài khoản bị khóa"
+        );
+
+    }
+
+
+    return user;
+}
 }

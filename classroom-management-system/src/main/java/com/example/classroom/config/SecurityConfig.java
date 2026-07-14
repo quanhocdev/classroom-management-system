@@ -17,6 +17,7 @@ import com.example.classroom.security.LoginSuccessHandler;
 import com.example.classroom.security.CustomLogoutSuccessHandler;
 
 
+
 @Configuration
 public class SecurityConfig {
 
@@ -32,18 +33,20 @@ public class SecurityConfig {
 
 
 
-   @Autowired
-private CustomLogoutSuccessHandler logoutSuccessHandler;
+    @Autowired
+    private CustomLogoutSuccessHandler logoutSuccessHandler;
+
+
 
 
 
     @Bean
     public PasswordEncoder passwordEncoder() {
 
-
         return new BCryptPasswordEncoder();
 
     }
+
 
 
 
@@ -60,49 +63,57 @@ private CustomLogoutSuccessHandler logoutSuccessHandler;
         http
 
 
+            /*
+             * AJAX + REST API
+             * tắt CSRF để fetch JSON POST hoạt động
+             */
+            .csrf(csrf -> csrf.disable())
+
+
+
+
 
             /*
-             * Session Authentication
-             *
-             * Spring Security tự tạo JSESSIONID
+             * Session authentication
              */
-            .sessionManagement(session -> session
+            .sessionManagement(session -> 
+                    session
                     .maximumSessions(1)
             )
 
 
 
+
+
+            /*
+             * Phân quyền
+             */
             .authorizeHttpRequests(auth -> auth
 
 
 
                     /*
-                     * Public
+                     * Public pages
                      */
                     .requestMatchers(
 
                             "/",
+
                             "/trang-chu",
+
 
                             "/auth/login",
                             "/auth/register",
+
+
+                            "/api/auth/register",
+                            "/api/auth/login",
+
 
                             "/css/**",
                             "/js/**",
                             "/images/**"
 
-                    )
-                    .permitAll()
-
-
-
-
-
-                    /*
-                     * API register
-                     */
-                    .requestMatchers(
-                            "/api/auth/register"
                     )
                     .permitAll()
 
@@ -147,12 +158,10 @@ private CustomLogoutSuccessHandler logoutSuccessHandler;
 
 
                     /*
-                     * Các request còn lại
-                     * bắt buộc login
+                     * Các trang còn lại
                      */
                     .anyRequest()
                     .authenticated()
-
 
             )
 
@@ -160,8 +169,10 @@ private CustomLogoutSuccessHandler logoutSuccessHandler;
 
 
 
+
+
             /*
-             * Form Login
+             * Login bằng form Thymeleaf
              */
             .formLogin(login -> login
 
@@ -173,6 +184,9 @@ private CustomLogoutSuccessHandler logoutSuccessHandler;
 
 
 
+                    /*
+                     * Form login submit tới đây
+                     */
                     .loginProcessingUrl(
                             "/login"
                     )
@@ -206,6 +220,8 @@ private CustomLogoutSuccessHandler logoutSuccessHandler;
                     .permitAll()
 
             )
+
+
 
 
 
@@ -247,6 +263,7 @@ private CustomLogoutSuccessHandler logoutSuccessHandler;
                     .permitAll()
 
             );
+
 
 
 

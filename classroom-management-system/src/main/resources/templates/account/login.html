@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Login</title>
@@ -12,7 +13,7 @@
 
     <form id="loginForm">
       <div>
-        <label>Username</label>
+        <label> Username </label>
 
         <input type="text" id="username" required />
       </div>
@@ -20,7 +21,7 @@
       <br />
 
       <div>
-        <label>Password</label>
+        <label> Password </label>
 
         <input type="password" id="password" required />
       </div>
@@ -35,8 +36,8 @@
     <script>
       document
         .getElementById("loginForm")
-        .addEventListener("submit", async function (event) {
-          event.preventDefault();
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
           const data = {
             username: document.getElementById("username").value,
@@ -58,16 +59,8 @@
             const result = await response.json();
 
             if (response.ok) {
-              // lưu JWT
-
-              localStorage.setItem("token", result.token);
-
-              localStorage.setItem("role", result.role);
-
               document.getElementById("message").innerText =
                 "Đăng nhập thành công";
-
-              // chuyển trang theo role
 
               setTimeout(function () {
                 if (result.role === "ADMIN") {
@@ -77,10 +70,10 @@
                 } else if (result.role === "STUDENT") {
                   window.location.href = "/student/trang-chu";
                 }
-              }, 1000);
+              }, 500);
             } else {
               document.getElementById("message").innerText =
-                result.message ?? "Sai tài khoản hoặc mật khẩu";
+                result.message ?? "Sai username hoặc password";
             }
           } catch (error) {
             document.getElementById("message").innerText =
