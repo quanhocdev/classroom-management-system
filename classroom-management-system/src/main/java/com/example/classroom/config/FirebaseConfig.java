@@ -1,6 +1,7 @@
 package com.example.classroom.config;
 
-import java.io.FileInputStream;
+
+import java.io.InputStream;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -11,6 +12,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
 
+
 @Configuration
 public class FirebaseConfig {
 
@@ -18,12 +20,16 @@ public class FirebaseConfig {
     @PostConstruct
     public void initialize() {
 
+
         try {
 
-            FileInputStream serviceAccount =
-                    new FileInputStream(
-                    "firebase-service-account.json"
-            );
+
+            InputStream serviceAccount =
+                    getClass()
+                    .getClassLoader()
+                    .getResourceAsStream(
+                        "firebase-service-account.json"
+                    );
 
 
             FirebaseOptions options =
@@ -35,6 +41,7 @@ public class FirebaseConfig {
                     .build();
 
 
+
             if(FirebaseApp.getApps().isEmpty()) {
 
                 FirebaseApp.initializeApp(options);
@@ -42,11 +49,16 @@ public class FirebaseConfig {
             }
 
 
-        } catch(Exception e) {
+        }
+        catch(Exception e) {
 
             throw new RuntimeException(
-                "Không thể khởi tạo Firebase"
+                "Không thể khởi tạo Firebase",
+                e
             );
+
         }
+
     }
+
 }

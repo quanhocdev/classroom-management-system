@@ -57,6 +57,7 @@ public class SecurityConfig {
 
                 .requestMatchers(
                     "/trang-chu",
+                    "/auth/**",
                     "/api/auth/**"
                 )
                 .permitAll()
@@ -65,6 +66,11 @@ public class SecurityConfig {
                 .requestMatchers("/admin/**")
                 .hasRole("ADMIN")
 
+                .requestMatchers("/student/**")
+                .hasRole("STUDENT")
+
+                .requestMatchers("/teacher/**")
+                .hasRole("TEACHER")
 
                 .anyRequest()
                 .authenticated()

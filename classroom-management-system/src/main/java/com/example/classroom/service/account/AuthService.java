@@ -17,7 +17,12 @@ import com.example.classroom.security.FirebaseService;
 import com.example.classroom.security.JwtService;
 
 import com.google.firebase.auth.FirebaseToken;
+import com.example.classroom.dto.account.RegisterRequestDTO;
+import com.example.classroom.dto.account.RegisterResponseDTO;
 
+import com.example.classroom.model.enums.UserRole;
+import com.example.classroom.model.enums.UserProvider;
+import com.example.classroom.model.enums.UserStatus;
 
 
 @Service
@@ -39,6 +44,85 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+    public RegisterResponseDTO register(
+        RegisterRequestDTO request
+) {
+
+
+    // kiểm tra username tồn tại
+    if(userRepository
+            .existsByUsername(request.getUsername())) {
+
+        throw new RuntimeException(
+            "Username đã tồn tại"
+        );
+    }
+
+
+
+    // kiểm tra email tồn tại
+    if(userRepository
+            .existsByEmail(request.getEmail())) {
+
+        throw new RuntimeException(
+            "Email đã tồn tại"
+        );
+    }
+
+
+
+    Users user = new Users();
+
+
+    user.setUsername(
+        request.getUsername()
+    );
+
+
+    user.setEmail(
+        request.getEmail()
+    );
+
+
+    // mã hóa password
+    user.setPassword(
+        passwordEncoder.encode(
+            request.getPassword()
+        )
+    );
+
+
+
+    // mặc định người đăng ký là STUDENT
+    user.setRole(
+        UserRole.STUDENT
+    );
+
+
+
+    // đăng ký bằng tài khoản hệ thống
+    user.setProvider(
+        UserProvider.LOCAL
+    );
+
+
+
+    user.setStatus(
+        UserStatus.ACTIVE
+    );
+
+
+
+    userRepository.save(user);
+
+
+
+    return new RegisterResponseDTO(
+        "Đăng ký thành công"
+    );
+
+}
 
 
     // LOGIN LOCAL
