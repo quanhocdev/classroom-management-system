@@ -1,50 +1,47 @@
 body {
   margin: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  display: flex;
-  background-color: #f4f6f9;
-  color: #333;
+  overflow-x: hidden;
 }
 
-.content {
-  flex: 1;
-  padding: 30px;
-  margin-left: 260px; /* Tránh bị thanh sidebar đè lên */
-  transition: margin-left 0.3s ease;
+/* ==========================================================================
+   CẤU TRÚC LAYOUT VÀ CHUYỂN ĐỘNG TRƯỢT
+   ========================================================================== */
+
+.navbar {
+  z-index: 1030;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
 }
 
+/* Khoảng trống mặc định khi hiển thị Sidebar lớn (260px) */
+.main-content {
+  margin-left: 260px;
+  margin-top: 70px;
+  min-height: calc(100vh - 70px);
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Khi bấm nút mục lục thu gọn Sidebar -> dịch chuyển lề của content về 70px */
+body.sidebar-collapsed .main-content {
+  margin-left: 70px;
+}
+
+/* Banner Chào Mừng */
 .welcome-box {
   background: linear-gradient(135deg, #2e7d32, #43a047);
-  padding: 30px;
-  border-radius: 10px;
-  color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
 }
 
-.welcome-box h2 {
-  margin: 0 0 10px 0;
-  font-size: 28px;
-}
-
-.welcome-box p {
-  margin: 0;
+.opacity-90 {
   opacity: 0.9;
-  font-size: 16px;
 }
 
-.status-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-}
-
+/* Status Cards */
 .status-card {
-  background: white;
-  padding: 25px;
-  border-radius: 8px;
-  border-top: 4px solid #2e7d32;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-top: 4px solid #2e7d32 !important;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -52,20 +49,31 @@ body {
 
 .status-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08) !important;
 }
 
-.status-card h3 {
-  margin: 0 0 15px 0;
-  color: #666;
-  font-size: 16px;
-  text-transform: uppercase;
+.small-title {
+  font-size: 0.85rem;
   letter-spacing: 0.5px;
 }
 
-.status-card .number {
-  font-size: 32px;
-  font-weight: bold;
-  color: #2e7d32;
-  margin: 0;
+.icon-box {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   RESPONSIVE DI ĐỘNG (DƯỚI 768PX)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 70px; /* Thụt 70px mặc định */
+  }
+
+  body.sidebar-collapsed .main-content {
+    margin-left: 0px; /* Tràn màn hình khi ẩn hẳn */
+  }
 }

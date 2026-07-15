@@ -1,7 +1,10 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
   <body>
-    <div
+    <aside
       th:fragment="sidebar"
       id="sidebar"
       class="sidebar-teacher d-flex flex-column"
@@ -9,50 +12,57 @@
       <div class="sidebar-header text-center">
         <h3 class="m-0 d-flex align-items-center justify-content-center gap-2">
           <span>👨‍🏫</span>
-          <span class="d-none d-md-inline">Teacher Portal</span>
+          <span class="d-none-collapsed d-none d-md-inline"
+            >Teacher Portal</span
+          >
         </h3>
       </div>
+
       <ul
         class="sidebar-menu list-unstyled m-0 p-0 d-flex flex-column flex-grow-1"
       >
         <li>
           <a
             th:href="@{/teacher/trang-chu}"
-            class="d-flex align-items-center gap-3"
+            class="d-flex align-items-center justify-content-center justify-content-md-start gap-3"
           >
             <span>📊</span>
-            <span class="d-none d-md-inline">Tổng quan</span>
+            <span class="d-none-collapsed d-none d-md-inline">Tổng quan</span>
           </a>
         </li>
         <li>
           <a
             th:href="@{/teacher/classes}"
-            class="d-flex align-items-center gap-3"
+            class="d-flex align-items-center justify-content-center justify-content-md-start gap-3"
           >
             <span>🏫</span>
-            <span class="d-none d-md-inline">Lớp học giảng dạy</span>
+            <span class="d-none-collapsed d-none d-md-inline"
+              >Lớp học giảng dạy</span
+            >
           </a>
         </li>
         <li>
           <a
             th:href="@{/teacher/grades}"
-            class="d-flex align-items-center gap-3"
+            class="d-flex align-items-center justify-content-center justify-content-md-start gap-3"
           >
             <span>📝</span>
-            <span class="d-none d-md-inline">Quản lý nhập điểm</span>
+            <span class="d-none-collapsed d-none d-md-inline"
+              >Quản lý nhập điểm</span
+            >
           </a>
         </li>
         <li class="logout-item mt-auto">
           <a
             href="#"
             id="btnLogoutTeacher"
-            class="d-flex align-items-center gap-3"
+            class="d-flex align-items-center justify-content-center justify-content-md-start gap-3"
           >
             <span>🚪</span>
-            <span class="d-none d-md-inline">Đăng xuất</span>
+            <span class="d-none-collapsed d-none d-md-inline">Đăng xuất</span>
           </a>
         </li>
       </ul>
-    </div>
+    </aside>
   </body>
 </html>
