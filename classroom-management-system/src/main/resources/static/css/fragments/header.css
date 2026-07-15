@@ -1,0 +1,80 @@
+/* /css/fragments/header.css */
+.site-header {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #1a73e8;
+  text-decoration: none;
+  margin-right: 30px;
+}
+
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  gap: 20px;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: #5f6368;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.main-nav a:hover {
+  color: #1a73e8;
+}
+
+/* Auth Buttons */
+.btn-login {
+  text-decoration: none;
+  color: #1a73e8;
+  font-weight: 500;
+  padding: 8px 16px;
+  margin-right: 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.btn-login:hover {
+  background-color: #e8f0fe;
+}
+
+.btn-register {
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #1a73e8;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.btn-register:hover {
+  background-color: #1557b0;
+}

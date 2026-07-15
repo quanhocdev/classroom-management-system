@@ -1,91 +1,75 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng ký tài khoản - Hệ thống quản lý lớp học</title>
 
-    <title>Register</title>
+    <link rel="stylesheet" th:href="@{/css/fragments/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/fragments/footer.css}" />
+
+    <link rel="stylesheet" th:href="@{/css/account/register.css}" />
   </head>
+  <body class="auth-body">
+    <header th:replace="~{fragments/header :: common-header}"></header>
 
-  <body>
-    <h1>Register</h1>
+    <main class="auth-wrapper">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h2>Tạo tài khoản mới</h2>
+          <p>Tham gia vào hệ thống quản lý lớp học ngay hôm nay</p>
+        </div>
 
-    <form id="registerForm">
-      <div>
-        <label> Username </label>
+        <form id="registerForm" class="auth-form">
+          <div class="form-group">
+            <label for="username">Tên đăng nhập</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Nhập tên đăng nhập..."
+              required
+            />
+          </div>
 
-        <input id="username" name="username" type="text" required />
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="example@gmail.com"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn-submit">Đăng ký ngay</button>
+        </form>
+
+        <div id="message" class="auth-message"></div>
+
+        <div class="auth-footer">
+          <span>Bạn đã có tài khoản?</span>
+          <a href="/auth/login">Đăng nhập tại đây</a>
+        </div>
       </div>
+    </main>
 
-      <br />
+    <footer th:replace="~{fragments/footer :: common-footer}"></footer>
 
-      <div>
-        <label> Email </label>
-
-        <input id="email" name="email" type="email" required />
-      </div>
-
-      <br />
-
-      <div>
-        <label> Password </label>
-
-        <input id="password" name="password" type="password" required />
-      </div>
-
-      <br />
-
-      <button type="submit">Register</button>
-    </form>
-
-    <p id="message"></p>
-
-    <script>
-      document
-        .getElementById("registerForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-
-          const data = {
-            username: document.getElementById("username").value,
-
-            email: document.getElementById("email").value,
-
-            password: document.getElementById("password").value,
-          };
-
-          try {
-            const response = await fetch("/api/auth/register", {
-              method: "POST",
-
-              headers: {
-                "Content-Type": "application/json",
-              },
-
-              body: JSON.stringify(data),
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-              document.getElementById("message").innerText =
-                "Đăng ký thành công";
-
-              setTimeout(() => {
-                window.location.href = "/auth/login";
-              }, 1000);
-            } else {
-              document.getElementById("message").innerText =
-                result.message ?? "Đăng ký thất bại";
-            }
-          } catch (error) {
-            document.getElementById("message").innerText =
-              "Không thể kết nối server";
-
-            console.error(error);
-          }
-        });
-    </script>
+    <script th:src="@{/js/fragments/header.js}"></script>
+    <script th:src="@{/js/fragments/footer.js}"></script>
+    <script th:src="@{/js/account/register.js}"></script>
   </body>
 </html>

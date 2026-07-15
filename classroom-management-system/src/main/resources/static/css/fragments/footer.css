@@ -1,0 +1,35 @@
+/* /css/fragments/footer.css */
+.site-footer {
+  background-color: #f0f4f8;
+  color: #5f6368;
+  padding: 20px 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+  border-top: 1px solid #d2e3fc;
+  margin-top: auto; /* Đảm bảo footer luôn nằm dưới cùng trang */
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-container p {
+  margin: 0;
+}
+
+.footer-links a {
+  color: #1a73e8;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}

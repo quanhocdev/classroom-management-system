@@ -1,0 +1,125 @@
+/* Nền tảng cho trang Auth */
+.auth-body {
+  background-color: #f0f7ff; /* Xanh dương cực nhạt */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.auth-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.auth-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 450px;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(26, 115, 232, 0.1);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-header h2 {
+  color: #1a73e8; /* Xanh dương chính */
+  margin-bottom: 8px;
+  font-size: 1.8rem;
+}
+
+.auth-header p {
+  color: #5f6368;
+  font-size: 0.95rem;
+}
+
+/* Form styling */
+.auth-form .form-group {
+  margin-bottom: 20px;
+}
+
+.auth-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #3c4043;
+  font-weight: 500;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #dadce0;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box; /* Quan trọng để không bị tràn card */
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.btn-submit:hover {
+  background-color: #1557b0;
+}
+
+/* Thông báo lỗi/thành công */
+.auth-message {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 0.95rem;
+  min-height: 1.2rem;
+}
+
+.auth-message.success {
+  color: #1e7e34;
+}
+.auth-message.error {
+  color: #d93025;
+}
+
+/* Link chuyển đổi */
+.auth-footer {
+  margin-top: 25px;
+  text-align: center;
+  border-top: 1px solid #f1f3f4;
+  padding-top: 20px;
+  font-size: 0.9rem;
+}
+
+.auth-footer a {
+  color: #1a73e8;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
