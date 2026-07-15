@@ -1,1 +1,21 @@
 /* /templates/fragments/sidebar-admin.html */
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <div th:fragment="sidebar" id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <h3>Admin Portal</h3>
+      </div>
+      <ul class="sidebar-menu">
+        <li>
+          <a th:href="@{/admin/trang-chu}" class="active">📊 Tổng quan</a>
+        </li>
+        <li><a th:href="@{/admin/classes}">🏫 Quản lý lớp học</a></li>
+        <li><a th:href="@{/admin/teachers}">👨‍🏫 Quản lý giáo viên</a></li>
+        <li><a th:href="@{/admin/students}">👶 Quản lý học sinh</a></li>
+        <li><a th:href="@{/admin/settings}">⚙️ Cài đặt hệ thống</a></li>
+        <li class="logout-item"><a href="#" id="btnLogout">🚪 Đăng xuất</a></li>
+      </ul>
+    </div>
+  </body>
+</html>

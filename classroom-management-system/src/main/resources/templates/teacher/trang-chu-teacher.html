@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trang chủ Giáo viên</title>
+    <link rel="stylesheet" th:href="@{/css/fragments/sidebar-teacher.css}" />
+    <link rel="stylesheet" th:href="@{/css/teacher/trang-chu-teacher.css}" />
+  </head>
+  <body>
+    <div th:replace="~{fragments/sidebar-teacher :: sidebar}"></div>
+
+    <div class="content">
+      <div class="welcome-box">
+        <h2>Xin chào Thầy/Cô, <span id="teacherName">Giáo viên</span>!</h2>
+        <p>
+          Chào mừng đến với cổng thông tin quản lý giảng dạy và chấm điểm học
+          sinh.
+        </p>
+      </div>
+
+      <div class="status-grid">
+        <div class="status-card">
+          <h3>Lớp đang dạy</h3>
+          <p class="number">4 Lớp</p>
+        </div>
+        <div class="status-card">
+          <h3>Tổng số học sinh</h3>
+          <p class="number">120 Học sinh</p>
+        </div>
+      </div>
+    </div>
+
+    <script th:src="@{/js/fragments/sidebar-teacher.js}"></script>
+    <script th:src="@{/js/teacher/trang-chu-teacher.js}"></script>
+  </body>
+</html>

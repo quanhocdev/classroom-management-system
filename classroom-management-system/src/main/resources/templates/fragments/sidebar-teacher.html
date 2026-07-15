@@ -1,0 +1,18 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <div th:fragment="sidebar" id="sidebar" class="sidebar-teacher">
+      <div class="sidebar-header">
+        <h3>Teacher Portal</h3>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a th:href="@{/teacher/trang-chu}">📊 Tổng quan</a></li>
+        <li><a th:href="@{/teacher/classes}">🏫 Lớp học giảng dạy</a></li>
+        <li><a th:href="@{/teacher/grades}">📝 Quản lý nhập điểm</a></li>
+        <li class="logout-item">
+          <a href="#" id="btnLogoutTeacher">🚪 Đăng xuất</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
