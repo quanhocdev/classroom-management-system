@@ -19,7 +19,7 @@ public class AdminController {
 
     @GetMapping("/mon-hoc")
     public String showQuanLyMonHoc() {
-        return "admin/mon-hoc/quan-ly-mon-hoc";
+        return "admin/quan-ly-mon-hoc";
     }
 
 

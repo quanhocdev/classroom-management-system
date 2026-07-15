@@ -1,6 +1,5 @@
 package com.example.classroom.service.cloudinary;
 
-
 public class UploadResult {
 
     private String url;
@@ -8,14 +7,10 @@ public class UploadResult {
     private String publicId;
 
 
-    public UploadResult(
-            String url,
-            String publicId
-    ) {
+    public UploadResult(String url, String publicId) {
         this.url = url;
         this.publicId = publicId;
     }
-
 
 
     public String getUrl() {

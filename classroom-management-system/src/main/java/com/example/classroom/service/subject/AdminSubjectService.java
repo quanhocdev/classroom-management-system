@@ -12,6 +12,7 @@ import com.example.classroom.model.Subject;
 import com.example.classroom.model.enums.SubjectStatus;
 import com.example.classroom.repository.subject.SubjectRepository;
 import com.example.classroom.service.cloudinary.CloudinaryService;
+import com.example.classroom.service.cloudinary.UploadResult;
 
 
 @Service

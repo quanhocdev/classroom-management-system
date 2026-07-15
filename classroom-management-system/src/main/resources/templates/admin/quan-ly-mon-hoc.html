@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>Tạo môn học</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f6fa;
+        margin: 0;
+      }
+
+      .container {
+        width: 600px;
+
+        margin: 40px auto;
+
+        background: white;
+
+        padding: 30px;
+
+        border-radius: 12px;
+
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+
+        margin-bottom: 25px;
+      }
+
+      .form-group {
+        margin-bottom: 18px;
+      }
+
+      label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        font-weight: bold;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+
+        padding: 10px;
+
+        border: 1px solid #ddd;
+
+        border-radius: 6px;
+      }
+
+      textarea {
+        height: 100px;
+
+        resize: none;
+      }
+
+      button {
+        width: 100%;
+
+        padding: 12px;
+
+        background: #2563eb;
+
+        color: white;
+
+        border: none;
+
+        border-radius: 8px;
+
+        cursor: pointer;
+
+        font-size: 16px;
+      }
+
+      button:hover {
+        background: #1d4ed8;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Tạo môn học</h1>
+
+      <form id="subjectForm" enctype="multipart/form-data">
+        <!-- code -->
+        <div class="form-group">
+          <label> Mã môn học </label>
+
+          <input
+            type="text"
+            name="code"
+            placeholder="Ví dụ: JAVA101"
+            required
+          />
+        </div>
+
+        <!-- name -->
+        <div class="form-group">
+          <label> Tên môn học </label>
+
+          <input
+            type="text"
+            name="name"
+            placeholder="Ví dụ: Lập trình Java"
+            required
+          />
+        </div>
+
+        <!-- description -->
+        <div class="form-group">
+          <label> Mô tả </label>
+
+          <textarea name="description" placeholder="Nhập mô tả môn học">
+          </textarea>
+        </div>
+
+        <!-- image -->
+        <div class="form-group">
+          <label> Hình ảnh môn học </label>
+
+          <input type="file" name="image" accept="image/*" />
+        </div>
+
+        <button type="submit">Tạo môn học</button>
+      </form>
+    </div>
+
+    <script>
+      document
+        .getElementById("subjectForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const form = e.target;
+
+          const data = {
+            code: form.code.value,
+
+            name: form.name.value,
+
+            description: form.description.value,
+          };
+
+          const formData = new FormData();
+
+          formData.append(
+            "data",
+            new Blob([JSON.stringify(data)], {
+              type: "application/json",
+            }),
+          );
+
+          if (form.image.files.length > 0) {
+            formData.append("image", form.image.files[0]);
+          }
+
+          const response = await fetch("/api/admin/subjects", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (response.ok) {
+            alert("Tạo môn học thành công");
+
+            window.location.href = "/admin/mon-hoc";
+          } else {
+            alert("Có lỗi xảy ra");
+          }
+        });
+    </script>
+  </body>
+</html>
