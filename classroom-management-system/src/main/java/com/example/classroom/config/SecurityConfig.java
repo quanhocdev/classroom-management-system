@@ -78,6 +78,7 @@ public class SecurityConfig {
              */
             .sessionManagement(session -> 
                     session
+                    .invalidSessionUrl("/")
                     .maximumSessions(1)
             )
 

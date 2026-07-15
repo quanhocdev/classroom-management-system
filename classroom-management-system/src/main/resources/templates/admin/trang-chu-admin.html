@@ -1,11 +1,37 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trang chủ Admin</title>
+
+    <link rel="stylesheet" th:href="@{/css/fragments/sidebar-admin.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/trang-chu-admin.css}" />
   </head>
   <body>
-    <h1>Chào mừng đến với trang quản trị hệ thống quản lý lớp học</h1>
+    <div th:replace="~{fragments/sidebar-admin :: sidebar}"></div>
+
+    <div class="main-content">
+      <h1>Tổng quan hệ thống</h1>
+      <p>Chào mừng đến với trang quản trị hệ thống quản lý lớp học.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <h3>Lớp học</h3>
+          <p>12</p>
+        </div>
+        <div class="card">
+          <h3>Giáo viên</h3>
+          <p>24</p>
+        </div>
+        <div class="card">
+          <h3>Học sinh</h3>
+          <p>350</p>
+        </div>
+      </div>
+    </div>
+
+    <script th:src="@{/js/fragments/sidebar-admin.js}"></script>
+    <script th:src="@{/js/admin/trang-chu-admin.js}"></script>
   </body>
 </html>

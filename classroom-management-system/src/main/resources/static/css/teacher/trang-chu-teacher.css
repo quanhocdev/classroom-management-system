@@ -1,0 +1,71 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  background-color: #f4f6f9;
+  color: #333;
+}
+
+.content {
+  flex: 1;
+  padding: 30px;
+  margin-left: 260px; /* Tránh bị thanh sidebar đè lên */
+  transition: margin-left 0.3s ease;
+}
+
+.welcome-box {
+  background: linear-gradient(135deg, #2e7d32, #43a047);
+  padding: 30px;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.welcome-box h2 {
+  margin: 0 0 10px 0;
+  font-size: 28px;
+}
+
+.welcome-box p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.status-card {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  border-top: 4px solid #2e7d32;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.status-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-card h3 {
+  margin: 0 0 15px 0;
+  color: #666;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-card .number {
+  font-size: 32px;
+  font-weight: bold;
+  color: #2e7d32;
+  margin: 0;
+}

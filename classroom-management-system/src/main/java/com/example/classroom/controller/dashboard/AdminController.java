@@ -11,7 +11,7 @@ public class AdminController {
 
     @GetMapping("/trang-chu")
     public String showTrangChu() {
-        return "trang-chu-admin";
+        return "admin/trang-chu-admin";
     }
     
 }

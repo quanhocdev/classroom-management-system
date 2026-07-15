@@ -11,7 +11,18 @@ public class TeacherController {
     
     @GetMapping("/trang-chu")
     public String showTrangChu() {
-        return "trang-chu-teacher";
+        return "teacher/trang-chu-teacher";
+    }
+
+
+    @GetMapping("/classes")
+    public String showClasses() {
+        return "teacher/classes-teacher";
+    }
+
+    @GetMapping("/grades")
+    public String showGrades() {
+        return "teacher/grades-teacher";
     }
 
 
