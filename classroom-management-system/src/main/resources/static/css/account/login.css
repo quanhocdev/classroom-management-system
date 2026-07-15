@@ -40,7 +40,7 @@
 }
 
 .auth-header h2 {
-  color: #1a73e8; /* Xanh dương chính */
+  color: #1a73e8; /* Xanh dương thương hiệu */
   margin-bottom: 8px;
   font-size: 1.8rem;
 }
@@ -68,7 +68,7 @@
   border: 1px solid #dadce0;
   border-radius: 6px;
   font-size: 1rem;
-  box-sizing: border-box; /* Quan trọng để không bị tràn card */
+  box-sizing: border-box;
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
@@ -113,7 +113,7 @@
   color: #d93025;
 }
 
-/* Link chuyển đổi */
+/* Link điều hướng */
 .auth-footer {
   margin-top: 25px;
   text-align: center;

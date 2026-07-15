@@ -1,89 +1,63 @@
-/* /templates/account/login.html */
-
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập - Hệ thống quản lý lớp học</title>
 
-    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/fragments/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/fragments/footer.css}" />
+
+    <link rel="stylesheet" th:href="@{/css/account/login.css}" />
   </head>
+  <body class="auth-body">
+    <header th:replace="~{fragments/header :: common-header}"></header>
 
-  <body>
-    <h2>Login</h2>
+    <main class="auth-wrapper">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h2>Chào mừng quay trở lại</h2>
+          <p>Vui lòng đăng nhập để tiếp tục vào hệ thống</p>
+        </div>
 
-    <form id="loginForm">
-      <div>
-        <label> Username </label>
+        <form id="loginForm" class="auth-form">
+          <div class="form-group">
+            <label for="username">Tên đăng nhập</label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Nhập tên đăng nhập của bạn..."
+              required
+            />
+          </div>
 
-        <input type="text" id="username" required />
+          <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn-submit">Đăng nhập</button>
+        </form>
+
+        <div id="message" class="auth-message"></div>
+
+        <div class="auth-footer">
+          <span>Chưa có tài khoản?</span>
+          <a href="/auth/register">Đăng ký tài khoản mới</a>
+        </div>
       </div>
+    </main>
 
-      <br />
+    <footer th:replace="~{fragments/footer :: common-footer}"></footer>
 
-      <div>
-        <label> Password </label>
-
-        <input type="password" id="password" required />
-      </div>
-
-      <br />
-
-      <button type="submit">Login</button>
-    </form>
-
-    <p id="message"></p>
-
-    <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-
-          const data = {
-            username: document.getElementById("username").value,
-
-            password: document.getElementById("password").value,
-          };
-
-          try {
-            const response = await fetch("/api/auth/login", {
-              method: "POST",
-
-              headers: {
-                "Content-Type": "application/json",
-              },
-
-              body: JSON.stringify(data),
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-              document.getElementById("message").innerText =
-                "Đăng nhập thành công";
-
-              setTimeout(function () {
-                if (result.role === "ADMIN") {
-                  window.location.href = "/admin/trang-chu";
-                } else if (result.role === "TEACHER") {
-                  window.location.href = "/teacher/trang-chu";
-                } else if (result.role === "STUDENT") {
-                  window.location.href = "/student/trang-chu";
-                }
-              }, 500);
-            } else {
-              document.getElementById("message").innerText =
-                result.message ?? "Sai username hoặc password";
-            }
-          } catch (error) {
-            document.getElementById("message").innerText =
-              "Không thể kết nối server";
-
-            console.error(error);
-          }
-        });
-    </script>
+    <script th:src="@{/js/fragments/header.js}"></script>
+    <script th:src="@{/js/fragments/footer.js}"></script>
+    <script th:src="@{/js/account/login.js}"></script>
   </body>
+  Đ
 </html>
