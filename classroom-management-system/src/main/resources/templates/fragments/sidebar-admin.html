@@ -1,20 +1,67 @@
-/* /templates/fragments/sidebar-admin.html */
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
   <body>
-    <div th:fragment="sidebar" id="sidebar" class="sidebar">
-      <div class="sidebar-header">
-        <h3>Admin Portal</h3>
+    <div th:fragment="sidebar" id="sidebar" class="sidebar d-flex flex-column">
+      <div class="sidebar-header text-center">
+        <h3 class="m-0 d-flex align-items-center justify-content-center gap-2">
+          <span>🔑</span>
+          <span class="d-none d-md-inline">Admin Portal</span>
+        </h3>
       </div>
-      <ul class="sidebar-menu">
+      <ul
+        class="sidebar-menu list-unstyled m-0 p-0 d-flex flex-column flex-grow-1"
+      >
         <li>
-          <a th:href="@{/admin/trang-chu}" class="active">📊 Tổng quan</a>
+          <a
+            th:href="@{/admin/trang-chu}"
+            class="active d-flex align-items-center gap-3"
+          >
+            <span>📊</span>
+            <span class="d-none d-md-inline">Tổng quan</span>
+          </a>
         </li>
-        <li><a th:href="@{/admin/classes}">🏫 Quản lý lớp học</a></li>
-        <li><a th:href="@{/admin/teachers}">👨‍🏫 Quản lý giáo viên</a></li>
-        <li><a th:href="@{/admin/students}">👶 Quản lý học sinh</a></li>
-        <li><a th:href="@{/admin/settings}">⚙️ Cài đặt hệ thống</a></li>
-        <li class="logout-item"><a href="#" id="btnLogout">🚪 Đăng xuất</a></li>
+        <li>
+          <a
+            th:href="@{/admin/classes}"
+            class="d-flex align-items-center gap-3"
+          >
+            <span>🏫</span>
+            <span class="d-none d-md-inline">Quản lý lớp học</span>
+          </a>
+        </li>
+        <li>
+          <a
+            th:href="@{/admin/teachers}"
+            class="d-flex align-items-center gap-3"
+          >
+            <span>👨‍🏫</span>
+            <span class="d-none d-md-inline">Quản lý giáo viên</span>
+          </a>
+        </li>
+        <li>
+          <a
+            th:href="@{/admin/students}"
+            class="d-flex align-items-center gap-3"
+          >
+            <span>👶</span>
+            <span class="d-none d-md-inline">Quản lý học sinh</span>
+          </a>
+        </li>
+        <li>
+          <a
+            th:href="@{/admin/settings}"
+            class="d-flex align-items-center gap-3"
+          >
+            <span>⚙️</span>
+            <span class="d-none d-md-inline">Cài đặt hệ thống</span>
+          </a>
+        </li>
+        <li class="logout-item mt-auto">
+          <a href="#" id="btnLogout" class="d-flex align-items-center gap-3">
+            <span>🚪</span>
+            <span class="d-none d-md-inline">Đăng xuất</span>
+          </a>
+        </li>
       </ul>
     </div>
   </body>

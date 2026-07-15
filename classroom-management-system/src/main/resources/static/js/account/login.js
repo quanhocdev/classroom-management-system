@@ -29,20 +29,20 @@ document.addEventListener("DOMContentLoaded", function () {
         messageBox.innerText = "Đăng nhập thành công! Đang chuyển hướng...";
         messageBox.className = "auth-message success";
 
+        // LƯU CẢ TOKEN VÀ ROLE VÀO LOCALSTORAGE
         localStorage.setItem("accessToken", "true");
-
-        const userRole = result.role ? result.role.toUpperCase() : "";
+        const userRole = result.role
+          ? result.role.toUpperCase().replace("ROLE_", "")
+          : "";
+        localStorage.setItem("userRole", userRole); // Ví dụ: "ADMIN", "TEACHER", "STUDENT"
 
         setTimeout(function () {
-          if (userRole === "ADMIN" || userRole === "ROLE_ADMIN") {
-            window.location.href = "/admin/trang-chu";
-          } else if (userRole === "TEACHER" || userRole === "ROLE_TEACHER") {
+          if (userRole === "ADMIN") window.location.href = "/admin/trang-chu";
+          else if (userRole === "TEACHER")
             window.location.href = "/teacher/trang-chu";
-          } else if (userRole === "STUDENT" || userRole === "ROLE_STUDENT") {
+          else if (userRole === "STUDENT")
             window.location.href = "/student/trang-chu";
-          } else {
-            window.location.href = "/";
-          }
+          else window.location.href = "/";
         }, 800);
       } else {
         messageBox.innerText = "Sai username hoặc password";
