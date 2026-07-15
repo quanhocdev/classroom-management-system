@@ -1,72 +1,116 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng ký tài khoản - Hệ thống quản lý lớp học</title>
 
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" th:href="@{/css/fragments/header.css}" />
     <link rel="stylesheet" th:href="@{/css/fragments/footer.css}" />
-
     <link rel="stylesheet" th:href="@{/css/account/register.css}" />
   </head>
-  <body class="auth-body">
-    <header th:replace="~{fragments/header :: common-header}"></header>
+  <body class="bg-light d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/header :: common-header}"></div>
 
-    <main class="auth-wrapper">
-      <div class="auth-card">
-        <div class="auth-header">
-          <h2>Tạo tài khoản mới</h2>
-          <p>Tham gia vào hệ thống quản lý lớp học ngay hôm nay</p>
-        </div>
+    <main
+      class="auth-wrapper d-flex align-items-center justify-content-center flex-grow-1 py-5"
+    >
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
+            <div class="card auth-card border-0 shadow p-4 p-sm-5">
+              <div class="auth-header text-center mb-4">
+                <h2 class="fw-bold text-primary mb-2">Tạo tài khoản mới</h2>
+                <p class="text-muted small">
+                  Tham gia vào hệ thống quản lý lớp học ngay hôm nay
+                </p>
+              </div>
 
-        <form id="registerForm" class="auth-form">
-          <div class="form-group">
-            <label for="username">Tên đăng nhập</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Nhập tên đăng nhập..."
-              required
-            />
+              <form id="registerForm" class="auth-form">
+                <div class="mb-3">
+                  <label
+                    for="username"
+                    class="form-label fw-semibold text-secondary"
+                    >Tên đăng nhập</label
+                  >
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-control form-control-lg custom-input"
+                    placeholder="Nhập tên đăng nhập..."
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label
+                    for="email"
+                    class="form-label fw-semibold text-secondary"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control form-control-lg custom-input"
+                    placeholder="example@gmail.com"
+                    required
+                  />
+                </div>
+
+                <div class="mb-4">
+                  <label
+                    for="password"
+                    class="form-label fw-semibold text-secondary"
+                    >Mật khẩu</label
+                  >
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-control form-control-lg custom-input"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-lg w-100 fw-bold py-3 shadow-sm btn-submit"
+                >
+                  Đăng ký ngay
+                </button>
+              </form>
+
+              <div
+                id="message"
+                class="auth-message mt-3 text-center fw-medium"
+              ></div>
+
+              <div class="auth-footer text-center mt-4 pt-3 border-top">
+                <span class="text-muted small">Bạn đã có tài khoản?</span>
+                <a
+                  href="/auth/login"
+                  class="text-primary fw-semibold small text-decoration-none ms-1 link-hover"
+                >
+                  Đăng nhập tại đây
+                </a>
+              </div>
+            </div>
           </div>
-
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="example@gmail.com"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="password">Mật khẩu</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-
-          <button type="submit" class="btn-submit">Đăng ký ngay</button>
-        </form>
-
-        <div id="message" class="auth-message"></div>
-
-        <div class="auth-footer">
-          <span>Bạn đã có tài khoản?</span>
-          <a href="/auth/login">Đăng nhập tại đây</a>
         </div>
       </div>
     </main>
 
-    <footer th:replace="~{fragments/footer :: common-footer}"></footer>
+    <div th:replace="~{fragments/footer :: common-footer}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script th:src="@{/js/fragments/header.js}"></script>
     <script th:src="@{/js/fragments/footer.js}"></script>
