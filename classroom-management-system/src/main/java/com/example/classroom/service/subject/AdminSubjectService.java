@@ -11,6 +11,8 @@ import com.example.classroom.mapper.subject.SubjectMapper;
 import com.example.classroom.model.Subject;
 import com.example.classroom.model.enums.SubjectStatus;
 import com.example.classroom.repository.subject.SubjectRepository;
+import com.example.classroom.service.cloudinary.CloudinaryService;
+
 
 @Service
 public class AdminSubjectService {
@@ -62,12 +64,7 @@ public class AdminSubjectService {
 
         if(image != null && !image.isEmpty()) {
 
-            UploadResult result =
-                    cloudinaryService.uploadImage(
-                            image,
-                            "classroom-management/subjects"
-                    );
-
+            UploadResult result = cloudinaryService.uploadImage(image, "classroom-management/subjects");
 
             subject.setImageUrl(result.getUrl());
 

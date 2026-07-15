@@ -1,0 +1,29 @@
+package com.example.classroom.service.cloudinary;
+
+
+public class UploadResult {
+
+    private String url;
+
+    private String publicId;
+
+
+    public UploadResult(
+            String url,
+            String publicId
+    ) {
+        this.url = url;
+        this.publicId = publicId;
+    }
+
+
+
+    public String getUrl() {
+        return url;
+    }
+
+
+    public String getPublicId() {
+        return publicId;
+    }
+}
