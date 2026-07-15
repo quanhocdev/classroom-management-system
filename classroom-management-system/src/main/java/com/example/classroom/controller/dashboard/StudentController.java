@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class StudentController {
     @GetMapping("/trang-chu")
     public String showTrangChu() {
-        return "trang-chu-student";
+        return "student/trang-chu-student";
     }
 }

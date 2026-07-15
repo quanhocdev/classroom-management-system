@@ -5,56 +5,52 @@ document.addEventListener("DOMContentLoaded", function () {
   loginForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // Xóa thông báo cũ
     messageBox.innerText = "Đang xác thực...";
     messageBox.className = "auth-message";
 
-    const data = {
-      username: document.getElementById("username").value,
-      password: document.getElementById("password").value,
-    };
+    // Chuyển dữ liệu sang định dạng Form URL Encoded
+    const formData = new URLSearchParams();
+    formData.append("username", document.getElementById("username").value);
+    formData.append("password", document.getElementById("password").value);
 
     try {
-      const response = await fetch("/api/auth/login", {
+      // Gửi trực tiếp lên cổng xử lý của Spring Security đã cấu hình
+      const response = await fetch("/login", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify(data),
+        body: formData.toString(),
       });
 
-      const result = await response.json();
-
+      // Nếu LoginSuccessHandler của bạn trả về JSON chứa Role:
       if (response.ok) {
+        const result = await response.json();
         messageBox.innerText = "Đăng nhập thành công! Đang chuyển hướng...";
-        messageBox.classList.add("success");
+        messageBox.className = "auth-message success";
 
-        // Giả định lưu token trạng thái đăng nhập cho Header nhận diện
-        localStorage.setItem("accessToken", result.token || "true");
+        localStorage.setItem("accessToken", "true");
 
-        // Phân luồng điều hướng dựa vào Role nhận được từ server
+        const userRole = result.role ? result.role.toUpperCase() : "";
+
         setTimeout(function () {
-          switch (result.role) {
-            case "ADMIN":
-              window.location.href = "/admin/trang-chu";
-              break;
-            case "TEACHER":
-              window.location.href = "/teacher/trang-chu";
-              break;
-            case "STUDENT":
-              window.location.href = "/student/trang-chu";
-              break;
-            default:
-              window.location.href = "/"; // Quay về trang chủ nếu không khớp
+          if (userRole === "ADMIN" || userRole === "ROLE_ADMIN") {
+            window.location.href = "/admin/trang-chu";
+          } else if (userRole === "TEACHER" || userRole === "ROLE_TEACHER") {
+            window.location.href = "/teacher/trang-chu";
+          } else if (userRole === "STUDENT" || userRole === "ROLE_STUDENT") {
+            window.location.href = "/student/trang-chu";
+          } else {
+            window.location.href = "/";
           }
         }, 800);
       } else {
-        messageBox.innerText = result.message ?? "Sai username hoặc password";
-        messageBox.classList.add("error");
+        messageBox.innerText = "Sai username hoặc password";
+        messageBox.className = "auth-message error";
       }
     } catch (error) {
       messageBox.innerText = "Không thể kết nối đến máy chủ";
-      messageBox.classList.add("error");
+      messageBox.className = "auth-message error";
       console.error("Login Error:", error);
     }
   });

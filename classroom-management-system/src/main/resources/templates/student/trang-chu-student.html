@@ -1,0 +1,87 @@
+/* /templates/student/trang-chu-student.html */
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bảng điều khiển học sinh - Hệ thống lớp học</title>
+
+    <link rel="stylesheet" th:href="@{/css/fragments/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/fragments/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/fragments/sidebar-student.css}" />
+    <link rel="stylesheet" th:href="@{/css/student/trang-chu-student.css}" />
+  </head>
+  <body class="student-body">
+    <header th:replace="~{fragments/header :: common-header}"></header>
+
+    <div class="student-layout-wrapper">
+      <aside
+        th:replace="~{fragments/sidebar-student :: student-sidebar}"
+      ></aside>
+
+      <main class="student-content">
+        <div class="content-header">
+          <h1>Chào mừng bạn trở lại!</h1>
+          <p>Hôm nay bạn có bài học và bài tập mới cần hoàn thành.</p>
+        </div>
+
+        <div class="dashboard-widgets">
+          <div class="widget-card card-blue">
+            <h3>5</h3>
+            <p>Lớp học tham gia</p>
+          </div>
+          <div class="widget-card card-orange">
+            <h3>2</h3>
+            <p>Bài tập chưa nộp</p>
+          </div>
+          <div class="widget-card card-green">
+            <h3>8.5</h3>
+            <p>Điểm trung bình</p>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="content-body-card">
+            <div class="card-title-container">
+              <h2>📅 Lịch học hôm nay</h2>
+              <span class="badge-date" id="current-date">--/--/----</span>
+            </div>
+            <div class="table-responsive">
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th>Thời gian</th>
+                    <th>Môn học</th>
+                    <th>Phòng học</th>
+                    <th>Giáo viên</th>
+                  </tr>
+                </thead>
+                <tbody id="schedule-list">
+                  <tr>
+                    <td colspan="4" class="text-center">
+                      Đang tải lịch học...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="content-body-card">
+            <h2>📝 Bài tập cần hoàn thành</h2>
+            <div class="todo-list" id="assignment-list">
+              <p class="text-center">Đang tải danh sách bài tập...</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer th:replace="~{fragments/footer :: common-footer}"></footer>
+
+    <script th:src="@{/js/fragments/header.js}"></script>
+    <script th:src="@{/js/fragments/footer.js}"></script>
+    <script th:src="@{/js/fragments/sidebar-student.js}"></script>
+    <script th:src="@{/js/student/trang-chu-student.js}"></script>
+  </body>
+</html>

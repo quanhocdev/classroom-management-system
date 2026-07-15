@@ -1,0 +1,48 @@
+/* /templates/fragments/sidebar-student.html */
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <aside th:fragment="student-sidebar" class="student-sidebar">
+      <div class="sidebar-user-info">
+        <div class="avatar-placeholder">🎓</div>
+        <div class="user-detail">
+          <span class="user-role">Học sinh</span>
+          <span id="sidebar-student-name" class="user-name">Đang tải...</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a href="/student/trang-chu" class="nav-item active">
+              <span class="nav-icon">📊</span> Tổng quan
+            </a>
+          </li>
+          <li>
+            <a href="/student/lich-hoc" class="nav-item">
+              <span class="nav-icon">📅</span> Lịch học của tôi
+            </a>
+          </li>
+          <li>
+            <a href="/student/lop-hoc" class="nav-item">
+              <span class="nav-icon">🏫</span> Lớp học tham gia
+            </a>
+          </li>
+          <li>
+            <a href="/student/bai-tap" class="nav-item">
+              <span class="nav-icon">📝</span> Bài tập về nhà
+            </a>
+          </li>
+          <li>
+            <a href="/student/ket-qua" class="nav-item">
+              <span class="nav-icon">📈</span> Kết quả học tập
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+  </body>
+</html>
