@@ -5,67 +5,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hệ thống quản lý lớp học</title>
 
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/fragments/header.css}" />
     <link rel="stylesheet" th:href="@{/css/fragments/footer.css}" />
-
     <link rel="stylesheet" th:href="@{/css/trang-chu-public.css}" />
   </head>
+
   <body class="public-body">
+    <!-- Header -->
     <header th:replace="~{fragments/header :: common-header}"></header>
 
-    <section class="hero-section">
-      <div class="hero-container">
-        <h1>Hệ thống quản lý lớp học thông minh</h1>
-        <p>
-          Giải pháp tối ưu kết nối Nhà trường, Giáo viên và Học sinh. Quản lý
-          lớp học, theo dõi tiến độ và tối ưu hiệu suất giảng dạy chỉ trên một
-          nền tảng.
-        </p>
-        <div class="hero-buttons">
-          <a href="/auth/login" class="btn-hero-primary">Bắt đầu ngay</a>
-          <a href="/about" class="btn-hero-secondary">Tìm hiểu thêm</a>
+    <!-- Hero -->
+    <section class="hero-section py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center">
+            <h1 class="display-4 fw-bold text-primary mb-4">
+              Hệ thống quản lý lớp học
+            </h1>
+
+            <p class="lead text-secondary mb-5">
+              Giải pháp tối ưu kết nối Nhà trường, Giáo viên và Học sinh. Quản
+              lý lớp học, theo dõi tiến độ và tối ưu hiệu suất giảng dạy chỉ
+              trên một nền tảng.
+            </p>
+
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+              <a href="/auth/login" class="btn btn-primary btn-lg px-4">
+                Bắt đầu ngay
+              </a>
+
+              <a href="/about" class="btn btn-outline-primary btn-lg px-4">
+                Tìm hiểu thêm
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="features-section">
-      <div class="section-title">
-        <h2>Giải pháp toàn diện cho mọi vai trò</h2>
-        <p>Hệ thống được thiết kế tối ưu cho từng đối tượng người dùng</p>
-      </div>
+    <!-- Features -->
+    <section class="py-5">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="fw-bold mb-3">Giải pháp toàn diện cho mọi vai trò</h2>
 
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="card-icon icon-admin">🛡️</div>
-          <h3>Dành cho Admin</h3>
-          <p>
-            Quản lý toàn bộ danh sách lớp học, phân quyền tài khoản cho giáo
-            viên, học sinh và theo dõi báo cáo hệ thống một cách trực quan.
+          <p class="text-muted">
+            Hệ thống được thiết kế tối ưu cho từng đối tượng người dùng
           </p>
         </div>
 
-        <div class="feature-card">
-          <div class="card-icon icon-teacher">👨‍🏫</div>
-          <h3>Dành cho Giáo viên</h3>
-          <p>
-            Điểm danh dễ dàng, cập nhật bài tập về nhà, chấm điểm trực tuyến và
-            tương tác nhanh chóng với học sinh trong lớp.
-          </p>
-        </div>
+        <div class="row g-4">
+          <!-- Admin -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card feature-card h-100 shadow-sm border-0">
+              <div class="card-body text-center p-4">
+                <div class="display-4 mb-3">🛡️</div>
 
-        <div class="feature-card">
-          <div class="card-icon icon-student">🎓</div>
-          <h3>Dành cho Học sinh</h3>
-          <p>
-            Xem lịch học hàng ngày, nộp bài tập trực tuyến, theo dõi tiến trình
-            học tập và nhận thông báo mới nhất từ giáo viên.
-          </p>
+                <h4 class="text-primary mb-3">Dành cho Admin</h4>
+
+                <p class="text-muted mb-0">
+                  Quản lý toàn bộ danh sách lớp học, phân quyền tài khoản cho
+                  giáo viên, học sinh và theo dõi báo cáo hệ thống một cách trực
+                  quan.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Teacher -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card feature-card h-100 shadow-sm border-0">
+              <div class="card-body text-center p-4">
+                <div class="display-4 mb-3">👨‍🏫</div>
+
+                <h4 class="text-primary mb-3">Dành cho Giáo viên</h4>
+
+                <p class="text-muted mb-0">
+                  Điểm danh dễ dàng, cập nhật bài tập về nhà, chấm điểm trực
+                  tuyến và tương tác nhanh chóng với học sinh trong lớp.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Student -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card feature-card h-100 shadow-sm border-0">
+              <div class="card-body text-center p-4">
+                <div class="display-4 mb-3">🎓</div>
+
+                <h4 class="text-primary mb-3">Dành cho Học sinh</h4>
+
+                <p class="text-muted mb-0">
+                  Xem lịch học hàng ngày, nộp bài tập trực tuyến, theo dõi tiến
+                  trình học tập và nhận thông báo mới nhất từ giáo viên.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- Footer -->
     <footer th:replace="~{fragments/footer :: common-footer}"></footer>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JS -->
     <script th:src="@{/js/fragments/header.js}"></script>
     <script th:src="@{/js/fragments/footer.js}"></script>
     <script th:src="@{/js/trang-chu-public.js}"></script>

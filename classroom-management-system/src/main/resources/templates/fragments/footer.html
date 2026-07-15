@@ -1,20 +1,10 @@
-/* /templates/fragments/footer.html */
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-  </head>
   <body>
-    <footer th:fragment="common-footer" class="site-footer">
-      <div class="footer-container">
-        <p>
-          &copy; 2026 Hệ thống quản lý lớp học. Tất cả các quyền được bảo lưu.
-        </p>
-        <div class="footer-links">
-          <a href="#">Điều khoản</a> | <a href="#">Bảo mật</a> |
-          <a href="#">Hỗ trợ</a>
-        </div>
-      </div>
-    </footer>
+    <footer
+      th:fragment="common-footer"
+      id="footer-dynamic-container"
+      class="mt-auto"
+    ></footer>
   </body>
 </html>

@@ -1,152 +1,98 @@
-/* /css/trang-chu-public.css */
-/* Khung nền toàn trang */
 .public-body {
-  background-color: #ffffff;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  margin: 0;
+  background-color: #ffffff;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #3c4043;
 }
 
-/* --- Hero Section --- */
 .hero-section {
   background: linear-gradient(135deg, #e8f0fe 0%, #ffffff 100%);
-  padding: 80px 20px;
-  text-align: center;
   border-bottom: 1px solid #d2e3fc;
 }
 
-.hero-container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
 .hero-section h1 {
-  font-size: 2.8rem;
   color: #1a73e8;
-  margin-bottom: 20px;
-  font-weight: 700;
 }
 
 .hero-section p {
-  font-size: 1.2rem;
-  color: #5f6368;
-  line-height: 1.6;
-  margin-bottom: 35px;
+  line-height: 1.7;
 }
 
-.hero-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-.btn-hero-primary {
-  text-decoration: none;
-  background-color: #1a73e8;
-  color: #ffffff;
-  padding: 14px 28px;
-  border-radius: 6px;
-  font-weight: 600;
-  transition: background-color 0.2s;
-  box-shadow: 0 4px 6px rgba(26, 115, 232, 0.2);
-}
-
-.btn-hero-primary:hover {
-  background-color: #1557b0;
-}
-
-.btn-hero-secondary {
-  text-decoration: none;
-  background-color: #ffffff;
-  color: #1a73e8;
-  padding: 14px 28px;
-  border-radius: 6px;
-  font-weight: 600;
-  border: 1px solid #dadce0;
-  transition: background-color 0.2s;
-}
-
-.btn-hero-secondary:hover {
-  background-color: #f8fafe;
-  border-color: #1a73e8;
-}
-
-/* --- Features Section --- */
-.features-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 80px 20px;
-}
-
-.section-title {
-  text-align: center;
-  margin-bottom: 50px;
-}
-
-.section-title h2 {
-  font-size: 2rem;
-  color: #202124;
-  margin-bottom: 10px;
-}
-
-.section-title p {
-  color: #5f6368;
-  font-size: 1rem;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
+/* ==========================
+   Feature Card
+========================== */
 
 .feature-card {
-  background-color: #ffffff;
-  border: 1px solid #e8eaed;
-  border-radius: 8px;
-  padding: 35px 25px;
-  text-align: center;
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s,
-    border-color 0.3s;
+  border-radius: 12px;
+  transition: all 0.3s ease;
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(26, 115, 232, 0.08);
-  border-color: #c2e7ff;
-  background-color: #fafcff;
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(26, 115, 232, 0.15) !important;
 }
 
-.card-icon {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
+.feature-card .display-4 {
+  transition: transform 0.3s ease;
 }
 
-.feature-card h3 {
-  font-size: 1.3rem;
-  color: #1a73e8;
-  margin-bottom: 15px;
+.feature-card:hover .display-4 {
+  transform: scale(1.15);
+}
+
+.feature-card h4 {
+  font-weight: 600;
 }
 
 .feature-card p {
-  color: #5f6368;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin: 0;
+  line-height: 1.7;
 }
 
-/* Responsive tinh chỉnh màn hình nhỏ */
-@media (max-width: 600px) {
-  .hero-section h1 {
-    font-size: 2rem;
+/* ==========================
+   Button
+========================== */
+
+.btn-primary {
+  border-radius: 8px;
+  transition: 0.25s;
+}
+
+.btn-outline-primary {
+  border-radius: 8px;
+  transition: 0.25s;
+}
+
+.btn-primary:hover,
+.btn-outline-primary:hover {
+  transform: translateY(-2px);
+}
+
+/* ==========================
+   Responsive
+========================== */
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
   }
-  .hero-buttons {
-    flex-direction: column;
-    gap: 10px;
+
+  .hero-section h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-section p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section h1 {
+    font-size: 1.8rem;
+  }
+
+  .btn {
+    width: 100%;
   }
 }

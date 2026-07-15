@@ -9,9 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 
+
     @GetMapping("/trang-chu")
     public String showTrangChu() {
         return "admin/trang-chu-admin";
     }
-    
+
+
+
+    @GetMapping("/mon-hoc")
+    public String showQuanLyMonHoc() {
+        return "admin/quan-ly-mon-hoc";
+    }
+
+
 }

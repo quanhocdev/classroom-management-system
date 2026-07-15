@@ -1,44 +1,83 @@
-/* /templates/fragments/sidebar-student.html */
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
   </head>
   <body>
-    <aside th:fragment="student-sidebar" class="student-sidebar">
-      <div class="sidebar-user-info">
-        <div class="avatar-placeholder">🎓</div>
-        <div class="user-detail">
+    <aside
+      th:fragment="student-sidebar"
+      id="sidebar-student"
+      class="student-sidebar d-flex flex-column"
+    >
+      <div
+        class="sidebar-user-info d-flex align-items-center justify-content-center justify-content-md-start gap-3"
+      >
+        <div
+          class="avatar-placeholder d-flex align-items-center justify-content-center"
+        >
+          🎓
+        </div>
+        <div class="user-detail d-none-collapsed d-none d-md-flex flex-column">
           <span class="user-role">Học sinh</span>
-          <span id="sidebar-student-name" class="user-name">Đang tải...</span>
+          <span id="sidebar-student-name" class="user-name text-truncate"
+            >Đang tải...</span
+          >
         </div>
       </div>
 
-      <nav class="sidebar-nav">
-        <ul>
-          <li>
-            <a href="/student/trang-chu" class="nav-item active">
-              <span class="nav-icon">📊</span> Tổng quan
+      <nav class="sidebar-nav flex-grow-1">
+        <ul class="list-unstyled m-0 p-0">
+          <li class="px-2 px-md-3 mb-1">
+            <a
+              href="/student/trang-chu"
+              class="nav-item active d-flex align-items-center justify-content-center justify-content-md-start"
+            >
+              <span class="nav-icon m-0 me-md-3">📊</span>
+              <span class="d-none-collapsed d-none d-md-inline">Tổng quan</span>
             </a>
           </li>
-          <li>
-            <a href="/student/lich-hoc" class="nav-item">
-              <span class="nav-icon">📅</span> Lịch học của tôi
+          <li class="px-2 px-md-3 mb-1">
+            <a
+              href="/student/lich-hoc"
+              class="nav-item d-flex align-items-center justify-content-center justify-content-md-start"
+            >
+              <span class="nav-icon m-0 me-md-3">📅</span>
+              <span class="d-none-collapsed d-none d-md-inline"
+                >Lịch học của tôi</span
+              >
             </a>
           </li>
-          <li>
-            <a href="/student/lop-hoc" class="nav-item">
-              <span class="nav-icon">🏫</span> Lớp học tham gia
+          <li class="px-2 px-md-3 mb-1">
+            <a
+              href="/student/lop-hoc"
+              class="nav-item d-flex align-items-center justify-content-center justify-content-md-start"
+            >
+              <span class="nav-icon m-0 me-md-3">🏫</span>
+              <span class="d-none-collapsed d-none d-md-inline"
+                >Lớp học tham gia</span
+              >
             </a>
           </li>
-          <li>
-            <a href="/student/bai-tap" class="nav-item">
-              <span class="nav-icon">📝</span> Bài tập về nhà
+          <li class="px-2 px-md-3 mb-1">
+            <a
+              href="/student/bai-tap"
+              class="nav-item d-flex align-items-center justify-content-center justify-content-md-start"
+            >
+              <span class="nav-icon m-0 me-md-3">📝</span>
+              <span class="d-none-collapsed d-none d-md-inline"
+                >Bài tập về nhà</span
+              >
             </a>
           </li>
-          <li>
-            <a href="/student/ket-qua" class="nav-item">
-              <span class="nav-icon">📈</span> Kết quả học tập
+          <li class="px-2 px-md-3 mb-1">
+            <a
+              href="/student/ket-qua"
+              class="nav-item d-flex align-items-center justify-content-center justify-content-md-start"
+            >
+              <span class="nav-icon m-0 me-md-3">📈</span>
+              <span class="d-none-collapsed d-none d-md-inline"
+                >Kết quả học tập</span
+              >
             </a>
           </li>
         </ul>

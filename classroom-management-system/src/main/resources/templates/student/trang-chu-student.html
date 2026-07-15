@@ -1,83 +1,158 @@
-/* /templates/student/trang-chu-student.html */
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bảng điều khiển học sinh - Hệ thống lớp học</title>
 
-    <link rel="stylesheet" th:href="@{/css/fragments/header.css}" />
-    <link rel="stylesheet" th:href="@{/css/fragments/footer.css}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" th:href="@{/css/fragments/sidebar-student.css}" />
     <link rel="stylesheet" th:href="@{/css/student/trang-chu-student.css}" />
   </head>
-  <body class="student-body">
-    <header th:replace="~{fragments/header :: common-header}"></header>
+  <body class="bg-light d-flex flex-column min-vh-100">
+    <div th:replace="~{fragments/header :: common-header}"></div>
 
-    <div class="student-layout-wrapper">
-      <aside
-        th:replace="~{fragments/sidebar-student :: student-sidebar}"
-      ></aside>
+    <div th:replace="~{fragments/sidebar-student :: student-sidebar}"></div>
 
-      <main class="student-content">
-        <div class="content-header">
-          <h1>Chào mừng bạn trở lại!</h1>
-          <p>Hôm nay bạn có bài học và bài tập mới cần hoàn thành.</p>
+    <div class="main-content d-flex flex-column flex-grow-1">
+      <main class="container-fluid p-4 flex-grow-1">
+        <div class="mb-4">
+          <h1 class="text-dark fw-bold mb-1 fs-3">Chào mừng bạn trở lại!</h1>
+          <p class="text-muted mb-0">
+            Hôm nay bạn có bài học và bài tập mới cần hoàn thành.
+          </p>
         </div>
 
-        <div class="dashboard-widgets">
-          <div class="widget-card card-blue">
-            <h3>5</h3>
-            <p>Lớp học tham gia</p>
-          </div>
-          <div class="widget-card card-orange">
-            <h3>2</h3>
-            <p>Bài tập chưa nộp</p>
-          </div>
-          <div class="widget-card card-green">
-            <h3>8.5</h3>
-            <p>Điểm trung bình</p>
-          </div>
-        </div>
-
-        <div class="dashboard-grid">
-          <div class="content-body-card">
-            <div class="card-title-container">
-              <h2>📅 Lịch học hôm nay</h2>
-              <span class="badge-date" id="current-date">--/--/----</span>
-            </div>
-            <div class="table-responsive">
-              <table class="styled-table">
-                <thead>
-                  <tr>
-                    <th>Thời gian</th>
-                    <th>Môn học</th>
-                    <th>Phòng học</th>
-                    <th>Giáo viên</th>
-                  </tr>
-                </thead>
-                <tbody id="schedule-list">
-                  <tr>
-                    <td colspan="4" class="text-center">
-                      Đang tải lịch học...
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+        <div class="row g-4 mb-4">
+          <div class="col-12 col-md-4">
+            <div class="card h-100 border-0 shadow-sm custom-widget card-blue">
+              <div
+                class="card-body p-4 d-flex align-items-center justify-content-between"
+              >
+                <div>
+                  <span class="fs-1 fw-bold text-dark d-block">5</span>
+                  <small class="text-muted fw-semibold">Lớp học tham gia</small>
+                </div>
+                <div
+                  class="widget-icon bg-primary-subtle text-primary rounded-3 p-3 fs-3"
+                >
+                  🏫
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="content-body-card">
-            <h2>📝 Bài tập cần hoàn thành</h2>
-            <div class="todo-list" id="assignment-list">
-              <p class="text-center">Đang tải danh sách bài tập...</p>
+          <div class="col-12 col-md-4">
+            <div
+              class="card h-100 border-0 shadow-sm custom-widget card-orange"
+            >
+              <div
+                class="card-body p-4 d-flex align-items-center justify-content-between"
+              >
+                <div>
+                  <span class="fs-1 fw-bold text-dark d-block">2</span>
+                  <small class="text-muted fw-semibold">Bài tập chưa nộp</small>
+                </div>
+                <div
+                  class="widget-icon bg-warning-subtle text-warning rounded-3 p-3 fs-3"
+                >
+                  📝
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <div class="card h-100 border-0 shadow-sm custom-widget card-green">
+              <div
+                class="card-body p-4 d-flex align-items-center justify-content-between"
+              >
+                <div>
+                  <span class="fs-1 fw-bold text-dark d-block">8.5</span>
+                  <small class="text-muted fw-semibold">Điểm trung bình</small>
+                </div>
+                <div
+                  class="widget-icon bg-success-subtle text-success rounded-3 p-3 fs-3"
+                >
+                  📈
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-12 col-xl-8">
+            <div class="card border-0 shadow-sm h-100">
+              <div
+                class="card-header bg-white py-3 d-flex align-items-center justify-content-between border-0"
+              >
+                <h5 class="fw-bold m-0 text-dark">📅 Lịch học hôm nay</h5>
+                <span
+                  class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill fs-7"
+                  id="current-date"
+                  >--/--/----</span
+                >
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table
+                    class="table table-hover align-middle mb-0 custom-table"
+                  >
+                    <thead class="table-light">
+                      <tr>
+                        <th class="ps-4">Thời gian</th>
+                        <th>Môn học</th>
+                        <th>Phòng học</th>
+                        <th class="pe-4">Giáo viên</th>
+                      </tr>
+                    </thead>
+                    <tbody id="schedule-list">
+                      <tr>
+                        <td colspan="4" class="text-center py-4 text-muted">
+                          <div
+                            class="spinner-border spinner-border-sm text-primary me-2"
+                            role="status"
+                          ></div>
+                          Đang tải lịch học...
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-xl-4">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-header bg-white py-3 border-0">
+                <h5 class="fw-bold m-0 text-dark">📝 Bài tập cần hoàn thành</h5>
+              </div>
+              <div class="card-body">
+                <div id="assignment-list" class="d-flex flex-column gap-3">
+                  <div class="text-center py-4 text-muted">
+                    <div
+                      class="spinner-border spinner-border-sm text-warning me-2"
+                      role="status"
+                    ></div>
+                    Đang tải danh sách bài tập...
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </main>
+
+      <div th:replace="~{fragments/footer :: common-footer}"></div>
     </div>
 
-    <footer th:replace="~{fragments/footer :: common-footer}"></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script th:src="@{/js/fragments/header.js}"></script>
     <script th:src="@{/js/fragments/footer.js}"></script>
