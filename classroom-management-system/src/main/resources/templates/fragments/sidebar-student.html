@@ -6,6 +6,7 @@
   <body>
     <aside
       th:fragment="student-sidebar"
+      id="sidebar-student"
       class="student-sidebar d-flex flex-column"
     >
       <div
@@ -16,7 +17,7 @@
         >
           🎓
         </div>
-        <div class="user-detail d-none d-md-flex flex-column">
+        <div class="user-detail d-none-collapsed d-none d-md-flex flex-column">
           <span class="user-role">Học sinh</span>
           <span id="sidebar-student-name" class="user-name text-truncate"
             >Đang tải...</span
@@ -32,7 +33,7 @@
               class="nav-item active d-flex align-items-center justify-content-center justify-content-md-start"
             >
               <span class="nav-icon m-0 me-md-3">📊</span>
-              <span class="d-none d-md-inline">Tổng quan</span>
+              <span class="d-none-collapsed d-none d-md-inline">Tổng quan</span>
             </a>
           </li>
           <li class="px-2 px-md-3 mb-1">
@@ -41,7 +42,9 @@
               class="nav-item d-flex align-items-center justify-content-center justify-content-md-start"
             >
               <span class="nav-icon m-0 me-md-3">📅</span>
-              <span class="d-none d-md-inline">Lịch học của tôi</span>
+              <span class="d-none-collapsed d-none d-md-inline"
+                >Lịch học của tôi</span
+              >
             </a>
           </li>
           <li class="px-2 px-md-3 mb-1">
@@ -50,7 +53,9 @@
               class="nav-item d-flex align-items-center justify-content-center justify-content-md-start"
             >
               <span class="nav-icon m-0 me-md-3">🏫</span>
-              <span class="d-none d-md-inline">Lớp học tham gia</span>
+              <span class="d-none-collapsed d-none d-md-inline"
+                >Lớp học tham gia</span
+              >
             </a>
           </li>
           <li class="px-2 px-md-3 mb-1">
@@ -59,7 +64,9 @@
               class="nav-item d-flex align-items-center justify-content-center justify-content-md-start"
             >
               <span class="nav-icon m-0 me-md-3">📝</span>
-              <span class="d-none d-md-inline">Bài tập về nhà</span>
+              <span class="d-none-collapsed d-none d-md-inline"
+                >Bài tập về nhà</span
+              >
             </a>
           </li>
           <li class="px-2 px-md-3 mb-1">
@@ -68,7 +75,9 @@
               class="nav-item d-flex align-items-center justify-content-center justify-content-md-start"
             >
               <span class="nav-icon m-0 me-md-3">📈</span>
-              <span class="d-none d-md-inline">Kết quả học tập</span>
+              <span class="d-none-collapsed d-none d-md-inline"
+                >Kết quả học tập</span
+              >
             </a>
           </li>
         </ul>

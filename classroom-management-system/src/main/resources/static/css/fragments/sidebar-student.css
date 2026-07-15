@@ -1,16 +1,22 @@
 .student-sidebar {
-  width: 70px; /* Mobile thu gọn */
+  width: 260px; /* Chiều rộng mặc định trên PC */
   background-color: #ffffff;
   border-right: 1px solid #e8eaed;
-  min-height: calc(100vh - 70px);
+  height: calc(100vh - 70px) !important;
+  position: fixed;
+  top: 70px !important;
+  left: 0;
   font-family: "Segoe UI", sans-serif;
-  transition: all 0.3s ease;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1020;
 }
 
 .sidebar-user-info {
-  padding: 20px 10px;
+  padding: 20px;
   border-bottom: 1px solid #f1f3f4;
   background: linear-gradient(180deg, #f8fafe 0%, #ffffff 100%);
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .avatar-placeholder {
@@ -43,13 +49,14 @@
 }
 
 .nav-item {
-  padding: 12px;
+  padding: 12px 16px;
   color: #5f6368;
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;
   border-radius: 8px;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .nav-icon {
@@ -67,15 +74,42 @@
   font-weight: 600;
 }
 
-/* Khi màn hình lớn hơn 768px */
-@media (min-width: 768px) {
+/* ==========================================
+   KHI BẤM THU GỌN SIDEBAR (body.sidebar-collapsed)
+   ========================================== */
+body.sidebar-collapsed .student-sidebar {
+  width: 70px;
+}
+
+body.sidebar-collapsed .student-sidebar .d-none-collapsed {
+  display: none !important; /* Ẩn cụm chữ */
+}
+
+body.sidebar-collapsed .student-sidebar .nav-item {
+  padding: 12px 0;
+  justify-content: center !important;
+}
+
+body.sidebar-collapsed .student-sidebar .nav-icon {
+  margin-right: 0 !important;
+}
+
+/* Responsive cho thiết bị di động dưới 768px */
+@media (max-width: 768px) {
   .student-sidebar {
-    width: 260px;
+    width: 70px; /* Thu nhỏ mặc định */
   }
-  .sidebar-user-info {
-    padding: 24px 20px;
+  .student-sidebar .nav-item {
+    padding: 12px 0;
+    justify-content: center !important;
   }
-  .nav-item {
-    padding: 12px 16px;
+  .student-sidebar .nav-icon {
+    margin-right: 0 !important;
+  }
+
+  /* Nếu bấm nút đóng hẳn sidebar trên mobile */
+  body.sidebar-collapsed .student-sidebar {
+    width: 0px;
+    overflow: hidden;
   }
 }
