@@ -1,134 +1,78 @@
-/* Nền tảng cho trang Auth */
-.auth-body {
-  background-color: #f0f7ff; /* Xanh dương cực nhạt */
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+body {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f7ff !important; /* Xanh dương cực nhạt đặc trưng */
 }
 
+/* ==========================================================================
+   CẤU TRÚC AUTH WRAPPER (Tránh header đè)
+   ========================================================================== */
 .auth-wrapper {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
+  margin-top: 70px; /* Thụt xuống bằng chiều cao Navbar */
+  min-height: calc(
+    100vh - 140px
+  ); /* Co giãn theo chiều cao màn hình trừ Header/Footer */
 }
 
+/* Card Đăng nhập nâng cấp */
 .auth-card {
   background-color: #ffffff;
-  width: 100%;
-  max-width: 450px;
-  padding: 40px;
-
-  /* 1. TĂNG ĐỘ BO GÓC: Giúp form trông hiện đại và mềm mại hơn */
-  border-radius: 16px;
-
-  /* 2. THAY ĐỔI ĐỔ BÓNG: Làm bóng đậm hơn, rộng hơn để form "nhấc" hẳn lên khỏi nền */
+  border-radius: 16px !important; /* Bo góc mượt hiện đại */
   box-shadow:
-    0 15px 35px rgba(26, 115, 232, 0.15),
-    0 5px 15px rgba(0, 0, 0, 0.05);
-
-  /* 3. THÊM VIỀN NHẸ: Một đường viền mảnh màu xanh cực nhạt để định hình khối rõ hơn */
-  border: 1px solid rgba(26, 115, 232, 0.1);
+    0 15px 35px rgba(26, 115, 232, 0.12),
+    0 5px 15px rgba(0, 0, 0, 0.04) !important; /* Đổ bóng sâu, mềm */
+  border: 1px solid rgba(26, 115, 232, 0.1) !important;
 }
 
-.auth-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.auth-header h2 {
-  color: #1a73e8; /* Xanh dương thương hiệu */
-  margin-bottom: 8px;
-  font-size: 1.8rem;
-}
-
-.auth-header p {
-  color: #5f6368;
-  font-size: 0.95rem;
-}
-
-/* Form styling */
-.auth-form .form-group {
-  margin-bottom: 20px;
-}
-
-.auth-form label {
-  display: block;
-  margin-bottom: 8px;
-  color: #3c4043;
-  font-weight: 500;
-}
-
-.auth-form input {
-  width: 100%;
-  padding: 12px 15px;
+/* Kiểu dáng input custom */
+.custom-input {
   border: 1px solid #dadce0;
-  border-radius: 6px;
-  font-size: 1rem;
-  box-sizing: border-box;
+  border-radius: 8px;
+  font-size: 0.95rem;
   transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.auth-form input:focus {
-  outline: none;
+.custom-input:focus {
   border-color: #1a73e8;
-  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+  box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.15) !important;
+  outline: none;
 }
 
+/* Nút Submit */
 .btn-submit {
-  width: 100%;
-  padding: 14px;
   background-color: #1a73e8;
-  color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  margin-top: 10px;
+  border-radius: 8px;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
 }
 
 .btn-submit:hover {
   background-color: #1557b0;
 }
 
-/* Thông báo lỗi/thành công */
+.btn-submit:active {
+  transform: scale(0.98);
+}
+
+/* Hiệu ứng link đăng ký */
+.link-hover:hover {
+  text-decoration: underline !important;
+}
+
+/* CSS Dynamic Message hiển thị lỗi/thành công */
 .auth-message {
-  margin-top: 15px;
-  text-align: center;
-  font-size: 0.95rem;
-  min-height: 1.2rem;
+  font-size: 0.9rem;
+  min-height: 20px;
 }
 
 .auth-message.success {
-  color: #1e7e34;
+  color: #198754; /* Màu xanh lá chuẩn Bootstrap */
 }
+
 .auth-message.error {
-  color: #d93025;
-}
-
-/* Link điều hướng */
-.auth-footer {
-  margin-top: 25px;
-  text-align: center;
-  border-top: 1px solid #f1f3f4;
-  padding-top: 20px;
-  font-size: 0.9rem;
-}
-
-.auth-footer a {
-  color: #1a73e8;
-  text-decoration: none;
-  font-weight: 500;
-  margin-left: 5px;
-}
-
-.auth-footer a:hover {
-  text-decoration: underline;
+  color: #dc3545; /* Màu đỏ chuẩn Bootstrap */
 }
