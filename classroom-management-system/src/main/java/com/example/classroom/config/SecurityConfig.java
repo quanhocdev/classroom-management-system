@@ -88,7 +88,7 @@ public class SecurityConfig {
                             "/api/admin/**",
                             "/admin/**"
                     )
-                    .hasRole("ADMIN")
+                    .hasAuthority("SCOPE_ADMIN")
 
 
 
@@ -99,7 +99,7 @@ public class SecurityConfig {
                             "/api/teacher/**",
                             "/teacher/**"
                     )
-                    .hasRole("TEACHER")
+                    .hasAuthority("SCOPE_TEACHER")
 
 
 
@@ -110,7 +110,7 @@ public class SecurityConfig {
                             "/api/student/**",
                             "/student/**"
                     )
-                    .hasRole("STUDENT")
+                    .hasAuthority("SCOPE_STUDENT")
 
 
 
