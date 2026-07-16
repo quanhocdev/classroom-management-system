@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 import com.example.classroom.dto.account.RegisterRequestDTO;
 import com.example.classroom.dto.account.RegisterResponseDTO;
 
@@ -12,7 +13,6 @@ import com.example.classroom.model.Users;
 import com.example.classroom.model.enums.UserProvider;
 import com.example.classroom.model.enums.UserRole;
 import com.example.classroom.model.enums.UserStatus;
-import com.example.classroom.dto.account.LocalLoginRequestDTO;
 import com.example.classroom.repository.UserRepository;
 
 
@@ -35,15 +35,12 @@ public class AuthService {
     ) {
 
 
-
         if(userRepository
                 .existsByUsername(request.getUsername())) {
-
 
             throw new RuntimeException(
                     "Username đã tồn tại"
             );
-
         }
 
 
@@ -51,17 +48,14 @@ public class AuthService {
         if(userRepository
                 .existsByEmail(request.getEmail())) {
 
-
             throw new RuntimeException(
                     "Email đã tồn tại"
             );
-
         }
 
 
 
         Users user = new Users();
-
 
 
         user.setUsername(
@@ -74,7 +68,6 @@ public class AuthService {
         );
 
 
-
         user.setPassword(
                 passwordEncoder.encode(
                         request.getPassword()
@@ -82,14 +75,12 @@ public class AuthService {
         );
 
 
-
         /*
-         * Người tự đăng ký mặc định là STUDENT
+         * Đăng ký thường mặc định là STUDENT
          */
         user.setRole(
                 UserRole.STUDENT
         );
-
 
 
         user.setProvider(
@@ -97,11 +88,9 @@ public class AuthService {
         );
 
 
-
         user.setStatus(
                 UserStatus.ACTIVE
         );
-
 
 
         userRepository.save(user);
@@ -114,41 +103,4 @@ public class AuthService {
 
     }
 
-    public Users login(
-        LocalLoginRequestDTO request
-) {
-
-    Users user =
-        userRepository
-        .findByUsername(request.getUsername())
-        .orElseThrow(
-            () -> new RuntimeException(
-                "Sai username hoặc password"
-            )
-        );
-
-
-    if(!passwordEncoder.matches(
-            request.getPassword(),
-            user.getPassword()
-    )) {
-
-        throw new RuntimeException(
-            "Sai username hoặc password"
-        );
-
-    }
-
-
-    if(user.getStatus() != UserStatus.ACTIVE){
-
-        throw new RuntimeException(
-            "Tài khoản bị khóa"
-        );
-
-    }
-
-
-    return user;
-}
 }

@@ -1,159 +1,167 @@
 package com.example.classroom.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
+import org.springframework.security.config.http.SessionCreationPolicy;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
+import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
+
 import org.springframework.security.web.SecurityFilterChain;
-import com.example.classroom.security.LoginFailureHandler;
-import com.example.classroom.security.LoginSuccessHandler;
-import com.example.classroom.security.CustomLogoutSuccessHandler;
+
+
 
 @Configuration
 public class SecurityConfig {
 
-    @Autowired
-    private LoginSuccessHandler loginSuccessHandler;
-
-    @Autowired
-    private LoginFailureHandler loginFailureHandler;
-
-    @Autowired
-    private CustomLogoutSuccessHandler logoutSuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
+
     }
+
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http
     ) throws Exception {
 
+
         http
+
             /*
-             * AJAX + REST API
-             * tắt CSRF để fetch JSON POST hoạt động
+             * JWT + REST API
+             * Không dùng CSRF vì không dùng Session
              */
             .csrf(csrf -> csrf.disable())
 
+
             /*
-             * Session authentication
+             * JWT là Stateless
+             * Server không lưu trạng thái đăng nhập
              */
             .sessionManagement(session -> 
-                    session
-                    .invalidSessionUrl("/")
-                    .maximumSessions(1)
+                    session.sessionCreationPolicy(
+                            SessionCreationPolicy.STATELESS
+                    )
             )
+
 
             /*
              * Phân quyền
              */
             .authorizeHttpRequests(auth -> auth
+
+
                     /*
-                     * Public pages
+                     * Public API
                      */
                     .requestMatchers(
-
                             "/",
                             "/trang-chu",
-                            "/auth/login",
-                            "/auth/register",
-                            "/api/auth/register",
                             "/api/auth/login",
+                            "/api/auth/register",
                             "/css/**",
                             "/js/**",
                             "/images/**"
                     )
                     .permitAll()
-                   
+
+
+
                     /*
                      * Admin
                      */
                     .requestMatchers(
+                            "/api/admin/**",
                             "/admin/**"
                     )
                     .hasRole("ADMIN")
-                   
+
+
+
                     /*
                      * Teacher
                      */
                     .requestMatchers(
+                            "/api/teacher/**",
                             "/teacher/**"
                     )
                     .hasRole("TEACHER")
+
+
 
                     /*
                      * Student
                      */
                     .requestMatchers(
+                            "/api/student/**",
                             "/student/**"
                     )
                     .hasRole("STUDENT")
+
+
+
                     /*
-                     * Các trang còn lại
+                     * Những API còn lại
                      */
                     .anyRequest()
                     .authenticated()
+
             )
 
-            /*
-             * Login bằng form Thymeleaf
-             */
-            .formLogin(login -> login
 
-                    .loginPage(
-                            "/auth/login"
-                    )
+
+            /*
+             * JWT Authentication
+             *
+             * Spring tự dùng:
+             * - BearerTokenAuthenticationFilter
+             * - JwtDecoder
+             * - JwtAuthenticationProvider
+             *
+             * Không tự viết JwtFilter
+             */
+            .oauth2ResourceServer(oauth2 -> oauth2
+
+                    .jwt(Customizer.withDefaults())
+
 
                     /*
-                     * Form login submit tới đây
+                     * 401 Unauthorized
                      */
-                    .loginProcessingUrl(
-                            "/login"
+                    .authenticationEntryPoint(
+                            new BearerTokenAuthenticationEntryPoint()
                     )
-
-                    .usernameParameter(
-                            "username"
-                    )
-
-                    .passwordParameter(
-                            "password"
-                    )
-
-                    .successHandler(
-                            loginSuccessHandler
-                    )
-
-                    .failureHandler(
-                            loginFailureHandler
-                    )
-
-                    .permitAll()
 
             )
 
-            /*
-             * Logout
-             */
-            .logout(logout -> logout
 
-                    .logoutUrl(
-                            "/logout"
+
+            /*
+             * 403 Forbidden
+             */
+            .exceptionHandling(exception -> exception
+
+                    .accessDeniedHandler(
+                            new BearerTokenAccessDeniedHandler()
                     )
-                    .logoutSuccessHandler(
-                            logoutSuccessHandler
-                    )
-                    .invalidateHttpSession(true)
-                    .clearAuthentication(true)
-                    .deleteCookies(
-                            "JSESSIONID"
-                    )
-                    .permitAll()
+
             );
+
+
 
         return http.build();
 
