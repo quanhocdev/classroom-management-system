@@ -87,21 +87,19 @@ public class JwtService {
                  * Custom claims
                  */
                 .claim(
-                        "userId",
-                        user.getId()
-                )
-
-
-                .claim(
-    "scope",
-    "ROLE_" + user.getRole().name()
+        "userId",
+        user.getId()
 )
 
+.claim(
+        "scope",
+        user.getRole().name()
+)
 
-                .claim(
-                        "email",
-                        user.getEmail()
-                )
+.claim(
+        "email",
+        user.getEmail()
+)
 
 
                 .build();

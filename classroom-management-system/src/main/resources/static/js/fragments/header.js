@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const token =
-    localStorage.getItem("accessToken") ||
-    document.cookie.includes("loggedIn=true");
+  const token = localStorage.getItem("accessToken");
+
   const userRole = localStorage.getItem("userRole");
+
   const dynamicContainer = document.getElementById("header-dynamic-container");
+
   const sidebarPublicContainer = document.getElementById(
     "sidebarPublicContainer",
   );
 
   if (!dynamicContainer) return;
-
   // TRƯỜNG HỢP 1: CHƯA ĐĂNG NHẬP (Dùng Offcanvas có mờ màn hình như cũ)
   if (!token || !userRole) {
     dynamicContainer.innerHTML = `
@@ -95,9 +95,9 @@ document.addEventListener("DOMContentLoaded", function () {
       .getElementById("btnLogoutDynamic")
       .addEventListener("click", function (e) {
         e.preventDefault();
-        localStorage.clear();
-        document.cookie =
-          "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("userRole");
+
         window.location.href = "/";
       });
   }
