@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // 2. Giả lập hoặc gọi API lấy tên thật của học sinh (đã đăng nhập) hiển thị lên Sidebar
   const studentNameEl = document.getElementById("sidebar-student-name");
   if (studentNameEl) {
-    // Sau này bạn thay thế bằng dữ liệu từ giải mã JWT Token hoặc API thực tế
-    const mockStudentName = localStorage.getItem("username") || "Nguyễn Văn A";
+    // Có thể lấy username từ JWT claim hoặc API profile
+    const mockStudentName = localStorage.getItem("username");
     studentNameEl.innerText = mockStudentName;
   }
 });
