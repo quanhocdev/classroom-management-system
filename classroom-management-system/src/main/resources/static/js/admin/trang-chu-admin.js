@@ -24,7 +24,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     console.log("Admin data:", data);
 
-    document.getElementById("adminName").innerText = data.username;
+    const adminName = document.getElementById("adminName");
+
+    if (adminName) {
+      adminName.innerText = data.username;
+    }
   } catch (error) {
     console.error("Không gọi được API admin:", error);
   }
