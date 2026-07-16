@@ -21,7 +21,6 @@ public class PageAuthController {
     }
 
 
-
     @GetMapping("/register")
     public String registerPage() {
 

@@ -71,14 +71,16 @@ public class SecurityConfig {
                     .requestMatchers(
                             "/",
                             "/trang-chu",
-                            "/api/auth/login",
-                            "/api/auth/register",
+                            "/auth/**", 
+                            "/api/auth/**",
+                            "/favicon.ico",
                             "/css/**",
                             "/js/**",
                             "/images/**"
                     )
                     .permitAll()
 
+                    
 
 
                     /*
@@ -89,7 +91,6 @@ public class SecurityConfig {
                             "/admin/**"
                     )
                     .hasAuthority("SCOPE_ADMIN")
-
 
 
                     /*

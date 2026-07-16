@@ -1,10 +1,31 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // Lấy tên admin từ localStorage hiển thị lên tiêu đề nếu cần
-  const username = localStorage.getItem("username");
-  console.log(
-    "Hệ thống Admin Dashboard đã khởi chạy cho tài khoản:",
-    username || "Admin",
-  );
+document.addEventListener("DOMContentLoaded", async function () {
+  const token = localStorage.getItem("accessToken");
 
-  // Nơi cấu hình các biểu đồ hoặc gọi API lấy dữ liệu tổng quan sau này
+  if (!token) {
+    window.location.href = "/auth/login";
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/admin/dashboard", {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    if (response.status === 401 || response.status === 403) {
+      localStorage.removeItem("accessToken");
+      window.location.href = "/auth/login";
+      return;
+    }
+
+    const data = await response.json();
+
+    console.log("Admin data:", data);
+
+    document.getElementById("adminName").innerText = data.username;
+  } catch (error) {
+    console.error("Không gọi được API admin:", error);
+  }
 });

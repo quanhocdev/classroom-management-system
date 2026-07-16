@@ -27,7 +27,11 @@ document.addEventListener("DOMContentLoaded", function () {
         body: JSON.stringify(data),
       });
 
+      console.log(response.status);
+      console.log(response.headers.get("content-type"));
+
       const result = await response.json();
+      console.log(result);
 
       if (response.ok) {
         messageBox.innerText = "Đăng nhập thành công!";
