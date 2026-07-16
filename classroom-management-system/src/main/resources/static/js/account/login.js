@@ -20,6 +20,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch("/api/auth/login", {
         method: "POST",
 
+        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -27,10 +29,12 @@ document.addEventListener("DOMContentLoaded", function () {
         body: JSON.stringify(data),
       });
 
-      console.log(response.status);
-      console.log(response.headers.get("content-type"));
+      console.log("Status:", response.status);
+
+      console.log("Content-Type:", response.headers.get("content-type"));
 
       const result = await response.json();
+
       console.log(result);
 
       if (response.ok) {
@@ -38,7 +42,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         messageBox.className = "auth-message success";
 
+        /*
+         * JWT dùng cho API
+         */
         localStorage.setItem("accessToken", result.accessToken);
+
+        /*
+         * Thông tin hiển thị frontend
+         */
+        localStorage.setItem("username", result.username);
 
         localStorage.setItem("userRole", result.role);
 

@@ -3,16 +3,11 @@ package com.example.classroom.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-
 import org.springframework.security.config.http.SessionCreationPolicy;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 
@@ -41,22 +36,36 @@ public class SecurityConfig {
 
         http
 
+
             /*
-             * JWT + REST API
-             * Không dùng CSRF vì không dùng Session
+             * Dùng Session cho Thymeleaf page
+             * + JWT cho REST API
              */
             .csrf(csrf -> csrf.disable())
 
+               /*
+     * Spring tự lưu Authentication vào HttpSession
+     */
+    .securityContext(context ->
+            context.requireExplicitSave(false)
+    )
+
 
             /*
-             * JWT là Stateless
-             * Server không lưu trạng thái đăng nhập
+             * Cho phép Spring tạo session
+             *
+             * Login xong:
+             * SecurityContext
+             *       |
+             *       ↓
+             * HttpSession (JSESSIONID)
              */
-            .sessionManagement(session -> 
+            .sessionManagement(session ->
                     session.sessionCreationPolicy(
-                            SessionCreationPolicy.STATELESS
+                            SessionCreationPolicy.IF_REQUIRED
                     )
             )
+
 
 
             /*
@@ -65,13 +74,14 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
 
 
+
                     /*
-                     * Public API
+                     * Public
                      */
                     .requestMatchers(
                             "/",
                             "/trang-chu",
-                            "/auth/**", 
+                            "/auth/**",
                             "/api/auth/**",
                             "/favicon.ico",
                             "/css/**",
@@ -80,43 +90,65 @@ public class SecurityConfig {
                     )
                     .permitAll()
 
-                    
 
 
                     /*
-                     * Admin
+                     * ==========================
+                     * WEB PAGE (SESSION)
+                     * ==========================
                      */
+
                     .requestMatchers(
-                            "/api/admin/**",
                             "/admin/**"
+                    )
+                    .hasRole("ADMIN")
+
+
+                    .requestMatchers(
+                            "/teacher/**"
+                    )
+                    .hasRole("TEACHER")
+
+
+                    .requestMatchers(
+                            "/student/**"
+                    )
+                    .hasRole("STUDENT")
+
+
+
+
+                    /*
+                     * ==========================
+                     * REST API (JWT)
+                     * ==========================
+                     */
+
+
+                    .requestMatchers(
+                            "/api/admin/**"
                     )
                     .hasAuthority("SCOPE_ADMIN")
 
 
-                    /*
-                     * Teacher
-                     */
+
                     .requestMatchers(
-                            "/api/teacher/**",
-                            "/teacher/**"
+                            "/api/teacher/**"
                     )
                     .hasAuthority("SCOPE_TEACHER")
 
 
 
-                    /*
-                     * Student
-                     */
                     .requestMatchers(
-                            "/api/student/**",
-                            "/student/**"
+                            "/api/student/**"
                     )
                     .hasAuthority("SCOPE_STUDENT")
 
 
 
+
                     /*
-                     * Những API còn lại
+                     * Các request còn lại
                      */
                     .anyRequest()
                     .authenticated()
@@ -125,29 +157,29 @@ public class SecurityConfig {
 
 
 
+
             /*
-             * JWT Authentication
+             * OAuth2 Resource Server
              *
-             * Spring tự dùng:
-             * - BearerTokenAuthenticationFilter
-             * - JwtDecoder
-             * - JwtAuthenticationProvider
+             * Spring tự xử lý:
              *
-             * Không tự viết JwtFilter
+             * BearerTokenAuthenticationFilter
+             * JwtAuthenticationProvider
+             * JwtDecoder
+             *
+             * Không custom filter
              */
             .oauth2ResourceServer(oauth2 -> oauth2
 
                     .jwt(Customizer.withDefaults())
 
 
-                    /*
-                     * 401 Unauthorized
-                     */
                     .authenticationEntryPoint(
                             new BearerTokenAuthenticationEntryPoint()
                     )
 
             )
+
 
 
 
