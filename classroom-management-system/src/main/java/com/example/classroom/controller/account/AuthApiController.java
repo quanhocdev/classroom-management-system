@@ -14,8 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 
 import org.springframework.web.bind.annotation.*;
-
-
+import org.springframework.security.core.context.SecurityContextHolder;
 import com.example.classroom.dto.account.LoginResponseDTO;
 import com.example.classroom.dto.account.LocalLoginRequestDTO;
 import com.example.classroom.dto.account.RegisterRequestDTO;
@@ -122,6 +121,9 @@ public class AuthApiController {
                             )
 
                     );
+        SecurityContextHolder
+        .getContext()
+        .setAuthentication(authentication);
 
 
 
