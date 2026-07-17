@@ -70,6 +70,7 @@ public class SecurityConfig {
             )
 
             // 3. OAUTH2 RESOURCE SERVER & CHÍNH SÁCH ĐỌC TOKEN KHÔNG DÙNG CUSTOM FILTER
+            // 3. OAUTH2 RESOURCE SERVER & CHÍNH SÁCH ĐỌC TOKEN KHÔNG DÙNG CUSTOM FILTER
             .oauth2ResourceServer(oauth2 -> oauth2
                     // Đọc Token tự động từ cả Cookie "accessToken" (cho Web) lẫn Header (cho App Android)
                     .bearerTokenResolver(request -> {
@@ -89,10 +90,20 @@ public class SecurityConfig {
                     // Áp dụng bộ chuyển đổi Authority (phân quyền ROLE_ và SCOPE_)
                     .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                     
-                    // Xử lý lỗi 401 Unauthorized chuẩn xác để Client (JS trên Web / App Android) nhận biết và gọi API Refresh ngầm
-                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                    // XỬ LÝ LỖI 401 THÔNG MINH: Chỉ chặn nếu truy cập trang bảo mật, bỏ qua nếu là trang Public
+                    .authenticationEntryPoint((request, response, authException) -> {
+                        String uri = request.getRequestURI();
+                        
+                        // Nếu là trang public hoặc auth APIs, cho phép đi tiếp (coi như Anonymous)
+                        if (uri.equals("/") || uri.equals("/trang-chu") || uri.startsWith("/auth/") || uri.startsWith("/api/auth/")) {
+                            request.getRequestDispatcher(uri).forward(request, response);
+                        } else {
+                            // Ngược lại, nếu cố tình vào trang bảo mật (/admin, /api/admin,...) thì mới chặn 401
+                            new BearerTokenAuthenticationEntryPoint().commence(request, response, authException);
+                        }
+                    })
             )
-
+            
             // 4. XỬ LÝ LỖI PHÂN QUYỀN (403 FORBIDDEN)
             .exceptionHandling(exception -> exception
                     .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
