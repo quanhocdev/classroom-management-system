@@ -26,6 +26,10 @@ public class AdminController {
     public String showQuanLyGiaoVien() {
         return "admin/quan-ly-giao-vien";
     }
+    @GetMapping("/hoc-sinh")
+    public String showQuanLyHocSinh() {
+        return "admin/quan-ly-hoc-sinh";
+    }
 
 
 }
