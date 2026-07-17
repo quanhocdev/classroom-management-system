@@ -1,17 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const token = localStorage.getItem("accessToken");
-
+  // 1. Chỉ dùng userRole trong localStorage để nhận biết trạng thái đăng nhập nhanh trên UI
   const userRole = localStorage.getItem("userRole");
 
   const dynamicContainer = document.getElementById("header-dynamic-container");
-
   const sidebarPublicContainer = document.getElementById(
     "sidebarPublicContainer",
   );
 
   if (!dynamicContainer) return;
-  // TRƯỜNG HỢP 1: CHƯA ĐĂNG NHẬP (Dùng Offcanvas có mờ màn hình như cũ)
-  if (!token || !userRole) {
+
+  // TRƯỜNG HỢP 1: CHƯA ĐĂNG NHẬP (Không có userRole trong localStorage)
+  if (!userRole) {
     dynamicContainer.innerHTML = `
       <div class="d-flex align-items-center">
         <button class="navbar-toggler border-0 p-0 me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
@@ -44,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // TRƯỜNG HỢP ĐÃ ĐĂNG NHẬP (Bấm nút mục lục chỉ thu gọn sidebar, không mờ màn hình)
+  // TRƯỜNG HỢP 2: ĐÃ ĐĂNG NHẬP
   else {
     if (sidebarPublicContainer) sidebarPublicContainer.innerHTML = "";
 
@@ -83,22 +82,38 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
     `;
 
-    // Sự kiện bấm nút mục lục: Thu gọn / Mở rộng Sidebar bằng cách thêm/bớt class ở body
-    document
-      .getElementById("btn-toggle-sidebar")
-      .addEventListener("click", function () {
+    // Sự kiện bấm nút mục lục: Thu gọn / Mở rộng Sidebar
+    const toggleBtn = document.getElementById("btn-toggle-sidebar");
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", function () {
         document.body.classList.toggle("sidebar-collapsed");
       });
+    }
 
-    // Sự kiện Đăng xuất
-    document
-      .getElementById("btnLogoutDynamic")
-      .addEventListener("click", function (e) {
+    // Sự kiện Đăng xuất (Logout)
+    // Tìm đến khối xử lý Đăng xuất ở cuối file JS của bạn và sửa lại như sau:
+    const logoutBtn = document.getElementById("btnLogoutDynamic");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", async function (e) {
         e.preventDefault();
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("userRole");
 
-        window.location.href = "/";
+        try {
+          // Gửi request logout lên backend để dọn dẹp Cookie
+          await fetch("/api/auth/logout", {
+            method: "POST",
+            credentials: "include",
+          });
+        } catch (error) {
+          console.error("Lỗi khi gửi yêu cầu logout lên server:", error);
+        } finally {
+          // Dọn sạch localStorage của Client
+          localStorage.removeItem("username");
+          localStorage.removeItem("userRole");
+
+          // THAY ĐỔI Ở ĐÂY: Chuyển hướng thẳng về trang đăng nhập
+          window.location.href = "/auth/login";
+        }
       });
+    }
   }
 });

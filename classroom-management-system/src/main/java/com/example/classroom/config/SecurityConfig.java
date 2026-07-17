@@ -1,9 +1,11 @@
 package com.example.classroom.config;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +22,19 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    // =========================================================================
+    // FIX LỖI MIME TYPE: Cho phép tải trực tiếp JS, CSS, Images không qua bộ lọc
+    // =========================================================================
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers(
+                "/css/**",
+                "/js/**",
+                "/images/**",
+                "/favicon.ico"
+        );
     }
 
     @Bean
@@ -41,16 +56,11 @@ public class SecurityConfig {
                             "/",
                             "/trang-chu",
                             "/auth/**",
-                            "/api/auth/**",
-                            "/favicon.ico",
-                            "/css/**",
-                            "/js/**",
-                            "/images/**"
+                            "/api/auth/**"
                     ).permitAll()
 
                     /*
                      * WEB PAGES (Xác thực bằng Cookie chứa JWT)
-                     * Sử dụng hasRole(...) -> Spring sẽ tự kiểm tra "ROLE_ADMIN", "ROLE_TEACHER", ...
                      */
                     .requestMatchers("/admin/**").hasRole("ADMIN")
                     .requestMatchers("/teacher/**").hasRole("TEACHER")
@@ -89,13 +99,36 @@ public class SecurityConfig {
                     // Áp dụng bộ chuyển đổi Authority (phân quyền ROLE_ và SCOPE_)
                     .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                     
-                    // Xử lý lỗi 401 Unauthorized chuẩn xác để Client (JS trên Web / App Android) nhận biết và gọi API Refresh ngầm
-                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                    // XỬ LÝ LỖI 401 THÔNG MINH: Chỉ chặn nếu truy cập trang bảo mật, bỏ qua nếu là trang Public
+                    .authenticationEntryPoint((request, response, authException) -> {
+                        String uri = request.getRequestURI();
+                        
+                        // Nếu là trang public hoặc auth APIs, cho phép đi tiếp (coi như Anonymous)
+                        if (uri.equals("/") || uri.equals("/trang-chu") || uri.startsWith("/auth/") || uri.startsWith("/api/auth/")) {
+                            request.getRequestDispatcher(uri).forward(request, response);
+                        } else {
+                            // Ngược lại, nếu cố tình vào trang bảo mật (/admin, /api/admin,...) thì mới chặn 401
+                            new BearerTokenAuthenticationEntryPoint().commence(request, response, authException);
+                        }
+                    })
             )
-
+            
             // 4. XỬ LÝ LỖI PHÂN QUYỀN (403 FORBIDDEN)
             .exceptionHandling(exception -> exception
                     .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+            )
+
+            // =========================================================================
+            // 5. CẤU HÌNH LOGOUT (DỌN DẸP COOKIE PHÍA SERVER & TRẢ VỀ 200 OK CHO JS)
+            // =========================================================================
+            .logout(logout -> logout
+                    .logoutUrl("/api/auth/logout")             // Endpoint nhận request logout từ JS
+                    .deleteCookies("accessToken")              // Chỉ thị trình duyệt xóa Cookie accessToken
+                    .clearAuthentication(true)                 // Xóa thông tin Authentication trong Security Context
+                    .logoutSuccessHandler((request, response, authentication) -> {
+                        // Trả về HTTP 200 OK để báo cho fetch() phía JS biết là đã logout thành công
+                        response.setStatus(HttpServletResponse.SC_OK);
+                    })
             );
 
         return http.build();
@@ -109,12 +142,10 @@ public class SecurityConfig {
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter scopeConverter = new JwtGrantedAuthoritiesConverter();
-        // Giữ nguyên tiền tố SCOPE_ cho API
         scopeConverter.setAuthoritiesClaimName("scope");
         scopeConverter.setAuthorityPrefix("SCOPE_");
 
         JwtGrantedAuthoritiesConverter roleConverter = new JwtGrantedAuthoritiesConverter();
-        // Tạo thêm tiền tố ROLE_ từ claim "scope" để khớp với hasRole("ADMIN") của Web Page
         roleConverter.setAuthoritiesClaimName("scope");
         roleConverter.setAuthorityPrefix("ROLE_");
 
