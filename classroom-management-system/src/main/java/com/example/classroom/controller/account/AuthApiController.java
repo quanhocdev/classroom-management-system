@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.example.classroom.dto.account.LoginResponseDTO;
 import com.example.classroom.dto.account.LocalLoginRequestDTO;
 import com.example.classroom.dto.account.RegisterRequestDTO;
@@ -16,6 +15,8 @@ import com.example.classroom.dto.account.RegisterResponseDTO;
 import com.example.classroom.model.Users;
 import com.example.classroom.service.account.AuthService;
 import com.example.classroom.service.account.JwtService;
+  import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -177,5 +178,40 @@ public class AuthApiController {
                     .header(HttpHeaders.SET_COOKIE, cleanRefreshCookie.toString())
                     .body(errorResponse);
         }
+    }
+  
+/**
+     * API CHECK THÔNG TIN USER HIỆN TẠI
+     * Trả về thông tin người dùng dựa trên JWT giải mã từ Cookie.
+     * Nếu chưa đăng nhập, trả về trạng thái isLoggedIn = false với mã 200 OK để tránh lỗi đỏ Console ở trang Public.
+     */
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(Authentication authentication) {
+        // 1. Nếu chưa đăng nhập hoặc token không hợp lệ -> Trả về cấu hình trống an toàn (200 OK)
+        if (authentication == null || !authentication.isAuthenticated() || !(authentication instanceof JwtAuthenticationToken jwtAuth)) {
+            return ResponseEntity.ok(Map.of(
+                    "isLoggedIn", false,
+                    "message", "Chưa đăng nhập hoặc token đã hết hạn"
+            ));
+        }
+
+        // 2. Lấy username (subject) từ JWT
+        String username = jwtAuth.getName();
+
+        // 3. Lấy role từ danh sách Quyền hạn (Authorities) đã được convert ở SecurityConfig
+        String role = jwtAuth.getAuthorities().stream()
+                .map(auth -> auth.getAuthority())
+                .filter(authority -> authority.startsWith("ROLE_"))
+                .map(authority -> authority.replace("ROLE_", "")) // Cắt chữ ROLE_ (ADMIN, TEACHER, STUDENT)
+                .findFirst()
+                .orElse("STUDENT");
+
+        // 4. Trả về thông tin đăng nhập thành công cho Frontend
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("isLoggedIn", true);
+        userInfo.put("username", username);
+        userInfo.put("role", role);
+
+        return ResponseEntity.ok(userInfo);
     }
 }

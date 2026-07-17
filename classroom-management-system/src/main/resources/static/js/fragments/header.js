@@ -1,7 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // 1. Chỉ dùng userRole trong localStorage để nhận biết trạng thái đăng nhập nhanh trên UI
-  const userRole = localStorage.getItem("userRole");
-
+document.addEventListener("DOMContentLoaded", async function () {
   const dynamicContainer = document.getElementById("header-dynamic-container");
   const sidebarPublicContainer = document.getElementById(
     "sidebarPublicContainer",
@@ -9,8 +6,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!dynamicContainer) return;
 
-  // TRƯỜNG HỢP 1: CHƯA ĐĂNG NHẬP (Không có userRole trong localStorage)
-  if (!userRole) {
+  let userRole = null;
+  let isLoggedIn = false;
+
+  try {
+    // Gọi API check session ngầm, trình duyệt sẽ tự đính kèm Cookie lên
+    const checkResponse = await fetch("/api/auth/me", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include", // Luôn gửi kèm cookie để backend check
+    });
+
+    if (checkResponse.ok) {
+      const userData = await checkResponse.json();
+
+      // Kiểm tra trạng thái đăng nhập thực tế mà Server trả về
+      if (userData.isLoggedIn) {
+        userRole = userData.role;
+        isLoggedIn = true;
+        localStorage.setItem("userRole", userRole); // Đồng bộ nhanh thông tin hiển thị
+        localStorage.setItem("username", userData.username);
+      } else {
+        // Nếu Server bảo chưa đăng nhập, dọn dẹp sạch sẽ
+        localStorage.removeItem("userRole");
+        localStorage.removeItem("username");
+      }
+    }
+  } catch (error) {
+    console.error("Lỗi kết nối đến máy chủ:", error);
+    // Phương án dự phòng duy nhất khi mất mạng hoàn toàn
+    userRole = localStorage.getItem("userRole");
+    isLoggedIn = !!userRole;
+  }
+
+  // =========================================================================
+  // TRƯỜNG HỢP 1: CHƯA ĐĂNG NHẬP (Hoặc Token hết hạn) -> Vẽ giao diện Public
+  // =========================================================================
+  if (!isLoggedIn || !userRole) {
     dynamicContainer.innerHTML = `
       <div class="d-flex align-items-center">
         <button class="navbar-toggler border-0 p-0 me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
@@ -43,7 +75,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // TRƯỜNG HỢP 2: ĐÃ ĐĂNG NHẬP
+  // =========================================================================
+  // TRƯỜNG HỢP 2: ĐÃ ĐĂNG NHẬP HỢP LỆ -> Vẽ giao diện Quản trị
+  // =========================================================================
   else {
     if (sidebarPublicContainer) sidebarPublicContainer.innerHTML = "";
 
@@ -82,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
     `;
 
-    // Sự kiện bấm nút mục lục: Thu gọn / Mở rộng Sidebar
+    // Sự kiện nút đóng/mở Sidebar nhanh
     const toggleBtn = document.getElementById("btn-toggle-sidebar");
     if (toggleBtn) {
       toggleBtn.addEventListener("click", function () {
@@ -90,15 +124,13 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // Sự kiện Đăng xuất (Logout)
-    // Tìm đến khối xử lý Đăng xuất ở cuối file JS của bạn và sửa lại như sau:
+    // Sự kiện xử lý Đăng xuất (Logout)
     const logoutBtn = document.getElementById("btnLogoutDynamic");
     if (logoutBtn) {
       logoutBtn.addEventListener("click", async function (e) {
         e.preventDefault();
 
         try {
-          // Gửi request logout lên backend để dọn dẹp Cookie
           await fetch("/api/auth/logout", {
             method: "POST",
             credentials: "include",
@@ -106,11 +138,8 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (error) {
           console.error("Lỗi khi gửi yêu cầu logout lên server:", error);
         } finally {
-          // Dọn sạch localStorage của Client
           localStorage.removeItem("username");
           localStorage.removeItem("userRole");
-
-          // THAY ĐỔI Ở ĐÂY: Chuyển hướng thẳng về trang đăng nhập
           window.location.href = "/auth/login";
         }
       });
