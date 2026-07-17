@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.classroom.model.Users;
+import com.example.classroom.model.enums.UserRole;
+
+import java.util.List;
 
 
 
@@ -39,5 +42,6 @@ public interface UserRepository
     );
 
 
+    List<Users> findByRole(UserRole role);
 
 }

@@ -1,0 +1,71 @@
+/* Triệt tiêu margin mặc định của body */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Đảm bảo khung bố cục chính không làm vỡ cấu trúc flexbox cũ */
+.app-layout {
+  display: block !important; /* Loại bỏ d-flex ở bọc ngoài để margin-left hoạt động đúng */
+}
+
+/* CSS Nội dung chính dịch chuyển mượt mà chừa khoảng trống cho Sidebar và Header */
+.main-content {
+  margin-left: 260px; /* Mặc định rộng bằng sidebar */
+  margin-top: 70px; /* Tránh bị Header (Navbar) che */
+  min-height: calc(
+    100vh - 70px - 60px
+  ); /* Trừ đi chiều cao Header và chừa chỗ cho Footer */
+  background-color: #f8f9fa;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* KHI SIDEBAR THU NHỎ -> Đẩy nội dung chính tràn rộng ra */
+body.sidebar-collapsed .main-content {
+  margin-left: 70px;
+}
+
+/* Định dạng Card danh sách giống hiệu ứng trang chủ */
+.custom-card {
+  border-radius: 12px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.custom-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Hiệu ứng di chuột nhẹ cho hàng trong bảng */
+.table-hover tbody tr {
+  transition: background-color 0.15s ease-in-out;
+}
+
+/* Định dạng Modal */
+.modal-content {
+  border-radius: 14px;
+}
+
+.form-control {
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #dee2e6;
+}
+
+.form-control:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+/* Responsive thiết bị di động */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 70px; /* Mặc định trên điện thoại chừa 70px */
+  }
+
+  body.sidebar-collapsed .main-content {
+    margin-left: 0px; /* Khi ẩn hẳn sidebar trên mobile, tràn viền 100% */
+  }
+}
