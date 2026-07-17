@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/admin/subjects")
 public class AdminSubjectController {
 
-
     private final AdminSubjectService adminSubjectService;
 
 

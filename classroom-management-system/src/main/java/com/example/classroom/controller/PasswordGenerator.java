@@ -1,4 +1,4 @@
-package com.example.classroom.controller.account.admin;
+package com.example.classroom.controller;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
