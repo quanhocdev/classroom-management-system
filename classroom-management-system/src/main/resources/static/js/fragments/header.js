@@ -91,24 +91,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Sự kiện Đăng xuất (Logout)
+    // Tìm đến khối xử lý Đăng xuất ở cuối file JS của bạn và sửa lại như sau:
     const logoutBtn = document.getElementById("btnLogoutDynamic");
     if (logoutBtn) {
       logoutBtn.addEventListener("click", async function (e) {
         e.preventDefault();
 
         try {
-          // 2. Gửi request logout lên backend để dọn dẹp các Cookie (HttpOnly) phía Server
+          // Gửi request logout lên backend để dọn dẹp Cookie
           await fetch("/api/auth/logout", {
             method: "POST",
-            credentials: "include", // Rất quan trọng để gửi kèm Cookie và yêu cầu Server xóa đi
+            credentials: "include",
           });
         } catch (error) {
           console.error("Lỗi khi gửi yêu cầu logout lên server:", error);
         } finally {
-          // 3. Cho dù API logout thành công hay thất bại, dọn sạch localStorage của Client và nhảy về Trang chủ
+          // Dọn sạch localStorage của Client
           localStorage.removeItem("username");
           localStorage.removeItem("userRole");
-          window.location.href = "/";
+
+          // THAY ĐỔI Ở ĐÂY: Chuyển hướng thẳng về trang đăng nhập
+          window.location.href = "/auth/login";
         }
       });
     }

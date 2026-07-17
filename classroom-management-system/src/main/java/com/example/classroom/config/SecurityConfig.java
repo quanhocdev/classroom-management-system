@@ -1,9 +1,11 @@
 package com.example.classroom.config;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +22,19 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    // =========================================================================
+    // FIX LỖI MIME TYPE: Cho phép tải trực tiếp JS, CSS, Images không qua bộ lọc
+    // =========================================================================
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers(
+                "/css/**",
+                "/js/**",
+                "/images/**",
+                "/favicon.ico"
+        );
     }
 
     @Bean
@@ -41,16 +56,11 @@ public class SecurityConfig {
                             "/",
                             "/trang-chu",
                             "/auth/**",
-                            "/api/auth/**",
-                            "/favicon.ico",
-                            "/css/**",
-                            "/js/**",
-                            "/images/**"
+                            "/api/auth/**"
                     ).permitAll()
 
                     /*
                      * WEB PAGES (Xác thực bằng Cookie chứa JWT)
-                     * Sử dụng hasRole(...) -> Spring sẽ tự kiểm tra "ROLE_ADMIN", "ROLE_TEACHER", ...
                      */
                     .requestMatchers("/admin/**").hasRole("ADMIN")
                     .requestMatchers("/teacher/**").hasRole("TEACHER")
@@ -69,7 +79,6 @@ public class SecurityConfig {
                     .anyRequest().authenticated()
             )
 
-            // 3. OAUTH2 RESOURCE SERVER & CHÍNH SÁCH ĐỌC TOKEN KHÔNG DÙNG CUSTOM FILTER
             // 3. OAUTH2 RESOURCE SERVER & CHÍNH SÁCH ĐỌC TOKEN KHÔNG DÙNG CUSTOM FILTER
             .oauth2ResourceServer(oauth2 -> oauth2
                     // Đọc Token tự động từ cả Cookie "accessToken" (cho Web) lẫn Header (cho App Android)
@@ -107,6 +116,19 @@ public class SecurityConfig {
             // 4. XỬ LÝ LỖI PHÂN QUYỀN (403 FORBIDDEN)
             .exceptionHandling(exception -> exception
                     .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+            )
+
+            // =========================================================================
+            // 5. CẤU HÌNH LOGOUT (DỌN DẸP COOKIE PHÍA SERVER & TRẢ VỀ 200 OK CHO JS)
+            // =========================================================================
+            .logout(logout -> logout
+                    .logoutUrl("/api/auth/logout")             // Endpoint nhận request logout từ JS
+                    .deleteCookies("accessToken")              // Chỉ thị trình duyệt xóa Cookie accessToken
+                    .clearAuthentication(true)                 // Xóa thông tin Authentication trong Security Context
+                    .logoutSuccessHandler((request, response, authentication) -> {
+                        // Trả về HTTP 200 OK để báo cho fetch() phía JS biết là đã logout thành công
+                        response.setStatus(HttpServletResponse.SC_OK);
+                    })
             );
 
         return http.build();
@@ -120,12 +142,10 @@ public class SecurityConfig {
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter scopeConverter = new JwtGrantedAuthoritiesConverter();
-        // Giữ nguyên tiền tố SCOPE_ cho API
         scopeConverter.setAuthoritiesClaimName("scope");
         scopeConverter.setAuthorityPrefix("SCOPE_");
 
         JwtGrantedAuthoritiesConverter roleConverter = new JwtGrantedAuthoritiesConverter();
-        // Tạo thêm tiền tố ROLE_ từ claim "scope" để khớp với hasRole("ADMIN") của Web Page
         roleConverter.setAuthoritiesClaimName("scope");
         roleConverter.setAuthorityPrefix("ROLE_");
 
