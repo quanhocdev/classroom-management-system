@@ -1,180 +1,118 @@
 <!doctype html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tạo môn học</title>
 
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background: #f5f6fa;
-        margin: 0;
-      }
-
-      .container {
-        width: 600px;
-
-        margin: 40px auto;
-
-        background: white;
-
-        padding: 30px;
-
-        border-radius: 12px;
-
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-
-      h1 {
-        text-align: center;
-
-        margin-bottom: 25px;
-      }
-
-      .form-group {
-        margin-bottom: 18px;
-      }
-
-      label {
-        display: block;
-
-        margin-bottom: 8px;
-
-        font-weight: bold;
-      }
-
-      input,
-      textarea {
-        width: 100%;
-
-        padding: 10px;
-
-        border: 1px solid #ddd;
-
-        border-radius: 6px;
-      }
-
-      textarea {
-        height: 100px;
-
-        resize: none;
-      }
-
-      button {
-        width: 100%;
-
-        padding: 12px;
-
-        background: #2563eb;
-
-        color: white;
-
-        border: none;
-
-        border-radius: 8px;
-
-        cursor: pointer;
-
-        font-size: 16px;
-      }
-
-      button:hover {
-        background: #1d4ed8;
-      }
-    </style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" th:href="@{/css/fragments/sidebar-admin.css}" />
+    <!-- File CSS riêng cho trang tạo môn học -->
+    <link rel="stylesheet" th:href="@{/css/admin/quan-ly-mon-hoc.css}" />
   </head>
+  <body class="bg-light d-flex flex-column min-vh-100">
+    <!-- Header chung -->
+    <div th:replace="~{fragments/header :: common-header}"></div>
 
-  <body>
-    <div class="container">
-      <h1>Tạo môn học</h1>
+    <!-- Sidebar Admin -->
+    <div th:replace="~{fragments/sidebar-admin :: sidebar}"></div>
 
-      <form id="subjectForm" enctype="multipart/form-data">
-        <!-- code -->
-        <div class="form-group">
-          <label> Mã môn học </label>
+    <!-- Nội dung chính được đồng bộ layout dịch chuyển mượt mà -->
+    <div class="main-content d-flex flex-column flex-grow-1">
+      <div
+        class="container-fluid p-4 flex-grow-1 d-flex align-items-center justify-content-center"
+      >
+        <!-- Box chứa Form được thiết kế chuẩn Bootstrap -->
+        <div
+          class="card border-0 shadow-sm custom-card card-blue p-4 w-100"
+          style="max-width: 650px"
+        >
+          <div class="text-center mb-4">
+            <h1 class="text-dark fw-bold fs-3 mb-1">Tạo Môn Học</h1>
+            <p class="text-muted small mb-0">
+              Nhập thông tin chi tiết để thêm môn học mới vào hệ thống
+            </p>
+          </div>
 
-          <input
-            type="text"
-            name="code"
-            placeholder="Ví dụ: JAVA101"
-            required
-          />
+          <form id="subjectForm" enctype="multipart/form-data">
+            <!-- Mã môn học -->
+            <div class="mb-3">
+              <label class="form-label fw-bold text-secondary"
+                >Mã môn học</label
+              >
+              <input
+                type="text"
+                class="form-control form-control-lg fs-6"
+                name="code"
+                placeholder="Ví dụ: JAVA101"
+                required
+              />
+            </div>
+
+            <!-- Tên môn học -->
+            <div class="mb-3">
+              <label class="form-label fw-bold text-secondary"
+                >Tên môn học</label
+              >
+              <input
+                type="text"
+                class="form-control form-control-lg fs-6"
+                name="name"
+                placeholder="Ví dụ: Lập trình Java"
+                required
+              />
+            </div>
+
+            <!-- Mô tả -->
+            <div class="mb-3">
+              <label class="form-label fw-bold text-secondary">Mô tả</label>
+              <textarea
+                class="form-control fs-6"
+                name="description"
+                rows="4"
+                placeholder="Nhập mô tả môn học"
+                style="resize: none"
+              ></textarea>
+            </div>
+
+            <!-- Hình ảnh môn học -->
+            <div class="mb-4">
+              <label class="form-label fw-bold text-secondary"
+                >Hình ảnh môn học</label
+              >
+              <input
+                class="form-control"
+                type="file"
+                name="image"
+                accept="image/*"
+              />
+            </div>
+
+            <!-- Nút gửi form -->
+            <button
+              type="submit"
+              class="btn btn-primary btn-lg w-100 fw-bold shadow-sm"
+            >
+              Tạo môn học
+            </button>
+          </form>
         </div>
+      </div>
 
-        <!-- name -->
-        <div class="form-group">
-          <label> Tên môn học </label>
-
-          <input
-            type="text"
-            name="name"
-            placeholder="Ví dụ: Lập trình Java"
-            required
-          />
-        </div>
-
-        <!-- description -->
-        <div class="form-group">
-          <label> Mô tả </label>
-
-          <textarea name="description" placeholder="Nhập mô tả môn học">
-          </textarea>
-        </div>
-
-        <!-- image -->
-        <div class="form-group">
-          <label> Hình ảnh môn học </label>
-
-          <input type="file" name="image" accept="image/*" />
-        </div>
-
-        <button type="submit">Tạo môn học</button>
-      </form>
+      <!-- Footer chung -->
+      <div th:replace="~{fragments/footer :: common-footer}"></div>
     </div>
 
-    <script>
-      document
-        .getElementById("subjectForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-          const form = e.target;
-
-          const data = {
-            code: form.code.value,
-
-            name: form.name.value,
-
-            description: form.description.value,
-          };
-
-          const formData = new FormData();
-
-          formData.append(
-            "data",
-            new Blob([JSON.stringify(data)], {
-              type: "application/json",
-            }),
-          );
-
-          if (form.image.files.length > 0) {
-            formData.append("image", form.image.files[0]);
-          }
-
-          const response = await fetch("/api/admin/subjects", {
-            method: "POST",
-            body: formData,
-          });
-
-          if (response.ok) {
-            alert("Tạo môn học thành công");
-
-            window.location.href = "/admin/mon-hoc";
-          } else {
-            alert("Có lỗi xảy ra");
-          }
-        });
-    </script>
+    <!-- Script điều khiển layout và gọi API -->
+    <script th:src="@{/js/fragments/header.js}"></script>
+    <script th:src="@{/js/fragments/footer.js}"></script>
+    <script th:src="@{/js/fragments/sidebar-admin.js}"></script>
+    <script th:src="@{/js/admin/quan-ly-mon-hoc.js}"></script>
   </body>
 </html>
