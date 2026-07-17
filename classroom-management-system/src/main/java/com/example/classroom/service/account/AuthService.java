@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.classroom.dto.account.AdminCreateUserRequestDTO;
 import com.example.classroom.dto.account.LocalLoginRequestDTO; // Sử dụng đúng DTO của bạn
 import com.example.classroom.dto.account.RegisterRequestDTO;
 import com.example.classroom.dto.account.RegisterResponseDTO;
@@ -79,4 +80,5 @@ public class AuthService {
 
         return user;
     }
+  
 }
