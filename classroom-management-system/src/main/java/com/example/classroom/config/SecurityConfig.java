@@ -32,8 +32,8 @@ public class SecurityConfig {
         return (web) -> web.ignoring().requestMatchers(
                 "/css/**",
                 "/js/**",
-                "/images/**",
-                "/favicon.ico"
+                "/images/**"
+                // "/favicon.ico"
         );
     }
 

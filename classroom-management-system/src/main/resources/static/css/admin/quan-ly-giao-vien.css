@@ -1,0 +1,61 @@
+/* Layout chính chứa Sidebar và Nội dung */
+.app-layout {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 56px); /* Trừ đi chiều cao của header */
+}
+
+/* Đảm bảo vùng nội dung chính chiếm trọn diện tích còn lại */
+.main-content {
+  flex-grow: 1;
+  min-width: 0; /* Tránh việc bảng quá rộng làm vỡ khung */
+  background-color: #f8f9fa;
+}
+
+/* Custom Card kế thừa shadow-sm & bo tròn */
+.custom-card {
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: none;
+}
+
+/* Kiểu dáng riêng cho bảng dữ liệu */
+.table thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  color: #6c757d;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.table tbody td {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+/* Chỉnh style inputs cho Modal */
+.form-control {
+  border-radius: 8px;
+  padding: 10px 14px;
+  border: 1px solid #dee2e6;
+  font-size: 0.9rem;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+  border-color: #3b82f6;
+}
+
+.modal-content {
+  border-radius: 16px;
+}
+
+.btn {
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}

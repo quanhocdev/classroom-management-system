@@ -22,5 +22,10 @@ public class AdminController {
         return "admin/quan-ly-mon-hoc";
     }
 
+    @GetMapping("/giao-vien")
+    public String showQuanLyGiaoVien() {
+        return "admin/quan-ly-giao-vien";
+    }
+
 
 }
