@@ -40,50 +40,27 @@ public class AdminSubjectService {
 
 
     public AdminSubjectResponseDTO createSubject(
-            AdminSubjectRequestDTO request,
-            MultipartFile image
-    ) {
-
-
-        if(subjectRepository.existsByCode(request.getCode())) {
-            throw new RuntimeException("Subject code already exists");
-        }
-
-
-        Subject subject = new Subject();
-
-
-        subject.setCode(request.getCode());
-
-        subject.setName(request.getName());
-
-        subject.setDescription(request.getDescription());
-
-        subject.setStatus(SubjectStatus.ACTIVE);
-
-
-
-        if(image != null && !image.isEmpty()) {
-
-            UploadResult result = cloudinaryService.uploadImage(image, "classroom-management/subjects");
-
-            subject.setImageUrl(result.getUrl());
-
-            subject.setImagePublicId(result.getPublicId());
-        }
-
-
-
-        Subject saved =
-                subjectRepository.save(subject);
-
-
-
-        return subjectMapper.toAdminResponseDTO(saved);
+        AdminSubjectRequestDTO request,
+        MultipartFile image
+) {
+    if(subjectRepository.existsByCode(request.getCode())) {
+        throw new RuntimeException("Subject code already exists");
     }
 
+    // Dùng mapper để chuyển từ Request sang Entity gọn gàng hơn
+    Subject subject = subjectMapper.toEntity(request);
 
+    // Xử lý logic nghiệp vụ riêng biệt (upload ảnh)
+    if(image != null && !image.isEmpty()) {
+        UploadResult result = cloudinaryService.uploadImage(image, "classroom-management/subjects");
+        subject.setImageUrl(result.getUrl());
+        subject.setImagePublicId(result.getPublicId());
+    }
 
+    Subject saved = subjectRepository.save(subject);
+
+    return subjectMapper.toAdminResponseDTO(saved);
+}
 
     public List<AdminSubjectResponseDTO> getAllSubjects() {
 

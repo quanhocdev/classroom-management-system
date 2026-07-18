@@ -1,141 +1,109 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // 1. Tự động load danh sách học sinh ngay khi vào trang
-  fetchStudents();
+  const fileInput = document.getElementById("subjectImage");
+  const previewZone = document.getElementById("previewZone");
+  const uploadPrompt = document.getElementById("uploadPrompt");
+  const imagePreview = document.getElementById("imagePreview");
+  const btnRemoveImage = document.getElementById("btnRemoveImage");
+  const form = document.getElementById("createSubjectForm");
+  const btnSubmit = document.getElementById("btnSubmit");
+  const submitSpinner = document.getElementById("submitSpinner");
+  const alertContainer = document.getElementById("alertContainer");
 
-  const btnSubmitStudent = document.getElementById("btnSubmitStudent");
-  if (btnSubmitStudent) {
-    btnSubmitStudent.addEventListener("click", async function () {
-      const form = document.getElementById("createStudentForm");
-      const alertBox = document.getElementById("modalAlert");
-
-      const username = document.getElementById("username").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      if (!username || !email || !password) {
-        showAlert("Vui lòng nhập đầy đủ thông tin yêu cầu!", "danger");
-        return;
-      }
-
-      // Khớp chuẩn với AdminCreateUserRequestDTO ở Backend của bạn
-      const payload = {
-        username: username,
-        email: email,
-        password: password,
-        role: "STUDENT", // Xác định rõ vai trò tạo mới là học sinh
+  // 1. Xử lý Preview ảnh khi người dùng chọn file
+  fileInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        imagePreview.src = e.target.result;
+        previewZone.classList.remove("d-none");
+        uploadPrompt.classList.add("d-none");
       };
-
-      try {
-        // Gọi đúng API tạo tài khoản người dùng của bạn
-        const response = await fetch("/api/admin/users/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", // Truyền Cookie chứa JWT
-          body: JSON.stringify(payload),
-        });
-
-        const data = await response.json();
-
-        if (response.status === 201 || response.ok) {
-          showAlert("Đăng ký tài khoản học sinh thành công!", "success");
-
-          // Render dòng mới vừa tạo lên đầu bảng học sinh
-          addNewRowToTable(data, true);
-
-          setTimeout(() => {
-            form.reset();
-            alertBox.classList.add("d-none");
-            const modalEl = document.getElementById("createStudentModal");
-            const modal = bootstrap.Modal.getInstance(modalEl);
-            if (modal) {
-              modal.hide();
-            }
-          }, 1500);
-        } else {
-          showAlert(
-            data.message || "Lỗi không thể đăng ký tài khoản học sinh!",
-            "danger",
-          );
-        }
-      } catch (error) {
-        showAlert("Không thể kết nối đến hệ thống máy chủ!", "danger");
-        console.error("Lỗi kết nối:", error);
-      }
-    });
-  }
-
-  // 2. Hàm gọi API lấy danh sách học sinh
-  async function fetchStudents() {
-    const tbody = document.getElementById("studentTableBody");
-    try {
-      // Gọi API GET /api/admin/students đã cấu hình ở AdminStudentApiController
-      const response = await fetch("/api/admin/students", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // Truyền Cookie chứa JWT
-      });
-
-      if (!response.ok) {
-        throw new Error(`Server trả về lỗi: ${response.status}`);
-      }
-
-      const students = await response.json();
-      tbody.innerHTML = "";
-
-      if (students.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Chưa có học sinh nào trong danh sách.</td></tr>`;
-        return;
-      }
-
-      students.forEach((student) => {
-        addNewRowToTable(student, false);
-      });
-    } catch (error) {
-      console.error("Lỗi fetchStudents:", error);
-      tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-danger">Không thể kết nối để lấy danh sách học sinh!</td></tr>`;
+      reader.readAsDataURL(file);
     }
-  }
+  });
 
-  // Hàm hiển thị thông báo lỗi/thành công
-  function showAlert(message, type) {
-    const alertBox = document.getElementById("modalAlert");
-    if (alertBox) {
-      alertBox.className = `alert alert-${type} py-2 px-3 small mb-3`;
-      alertBox.innerText = message;
-      alertBox.classList.remove("d-none");
-    }
-  }
+  // 2. Xóa ảnh đã chọn (Reset preview)
+  btnRemoveImage.addEventListener("click", function (e) {
+    e.stopPropagation(); // Tránh kích hoạt sự kiện click mở file input của thẻ cha
+    fileInput.value = "";
+    imagePreview.src = "";
+    previewZone.classList.add("d-none");
+    uploadPrompt.classList.remove("d-none");
+  });
 
-  // Hàm thêm 1 hàng mới vào bảng (Khớp chuẩn thuộc tính của UserResponseDTO)
-  function addNewRowToTable(user, addToTop = false) {
-    const tbody = document.getElementById("studentTableBody");
-    if (!tbody) return;
-
-    if (tbody.querySelector(".text-center")) {
-      tbody.innerHTML = "";
-    }
-
-    const newRow = document.createElement("tr");
-    newRow.innerHTML = `
-            <td>${user.id}</td>
-            <td class="fw-semibold">${user.username}</td>
-            <td>${user.email}</td>
-            <td><span class="badge bg-success-subtle text-success border-0 px-2 py-1">${user.status || "ACTIVE"}</span></td>
-            <td><span class="badge bg-secondary-subtle text-secondary border-0 px-2 py-1">${user.provider || "LOCAL"}</span></td>
-            <td class="text-end">
-                <button class="btn btn-sm btn-outline-secondary me-1">Sửa</button>
-                <button class="btn btn-sm btn-outline-danger">Xóa</button>
-            </td>
+  // 3. Hàm hiển thị thông báo động (Alert Notification)
+  function showAlert(message, type = "danger") {
+    alertContainer.innerHTML = `
+            <div class="alert alert-${type} alert-dismissible fade show border-0 shadow-sm" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         `;
-
-    if (addToTop) {
-      tbody.insertBefore(newRow, tbody.firstChild);
-    } else {
-      tbody.appendChild(newRow);
-    }
   }
+
+  // 4. Xử lý sự kiện Submit Form (Gửi dữ liệu dạng multipart/form-data)
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault(); // Chặn hành vi load lại trang mặc định
+
+    // Trạng thái Loading của nút Submit
+    btnSubmit.disabled = true;
+    submitSpinner.classList.remove("d-none");
+    alertContainer.innerHTML = ""; // Xóa các thông báo cũ
+
+    // Xây dựng payload DTO khớp cấu trúc yêu cầu @RequestPart("data")
+    const requestDTO = {
+      code: document.getElementById("subjectCode").value.trim(),
+      name: document.getElementById("subjectName").value.trim(),
+      description: document.getElementById("subjectDesc").value.trim(),
+    };
+
+    // Khởi tạo FormData để gửi lên API của Backend
+    const formData = new FormData();
+
+    // Đóng gói đối tượng JSON data thành một Blob chứa định dạng application/json
+    formData.append(
+      "data",
+      new Blob([JSON.stringify(requestDTO)], {
+        type: "application/json",
+      }),
+    );
+
+    // Đóng gói file hình ảnh đại diện (nếu có)
+    if (fileInput.files[0]) {
+      formData.append("image", fileInput.files[0]);
+    }
+
+    try {
+      // Thực hiện gọi fetch API gửi tới Endpoint Backend của bạn
+      const response = await fetch("/api/admin/subjects", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        showAlert(
+          "✨ Thêm mới môn học thành công và đã đồng bộ lên đám mây!",
+          "success",
+        );
+        form.reset();
+        btnRemoveImage.click(); // Reset vùng hình ảnh về mặc định
+      } else {
+        // Xử lý lỗi trả về từ hệ thống (Ví dụ: Trùng mã môn học từ RuntimeException)
+        const errorText = await response.text();
+        showAlert(
+          `Lỗi hệ thống: ${errorText || "Không thể khởi tạo thực thể môn học."}`,
+        );
+      }
+    } catch (error) {
+      console.error("Error creating subject:", error);
+      showAlert(
+        "Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại đường truyền mạng.",
+      );
+    } finally {
+      // Tắt trạng thái Loading
+      btnSubmit.disabled = false;
+      submitSpinner.classList.add("d-none");
+    }
+  });
 });
