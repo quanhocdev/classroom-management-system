@@ -1,0 +1,177 @@
+/* ==========================================================================
+   Cấu trúc Bố cục Layout (Khắc phục triệt để lỗi Sidebar đè lên nội dung)
+   ========================================================================== */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+}
+
+/* Loại bỏ thuộc tính d-flex ở lớp bọc ngoài để margin-left hoạt động chính xác */
+.app-layout {
+  display: block !important;
+}
+
+/* Dịch chuyển khoảng cách hiển thị phù hợp tránh đè vỡ layout */
+.main-content {
+  margin-left: 260px; /* Độ rộng chừa chỗ cố định cho Sidebar */
+  margin-top: 70px; /* Khoảng trống phía trên chừa chỗ cho Header */
+  min-height: calc(
+    100vh - 70px - 60px
+  ); /* Tự động tính chiều cao trừ Header & Footer */
+  background-color: #ffffff;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Khi Sidebar kích hoạt trạng thái thu nhỏ đóng lại */
+body.sidebar-collapsed .main-content {
+  margin-left: 70px;
+}
+
+/* Khu vực tiêu đề trang mang phong cách Hero Section thu nhỏ */
+.page-header-banner {
+  background: linear-gradient(135deg, #e8f0fe 0%, #ffffff 100%);
+  border-bottom: 1px solid #d2e3fc;
+  border-radius: 12px;
+}
+
+.page-header-banner h1 {
+  color: #1a73e8;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Thành phần Card Thông Tin Môn Học (Phong cách Feature Card)
+   ========================================================================== */
+.custom-form-card {
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.custom-form-card:hover {
+  box-shadow: 0 12px 30px rgba(26, 115, 232, 0.1) !important;
+}
+
+.custom-form-card .card-header {
+  border-bottom: 1px solid #dee2e6;
+  background-color: #ffffff;
+}
+
+/* ==========================================================================
+   Khu Vực Tải Ảnh Lên Cloudinary
+   ========================================================================== */
+.image-upload-wrapper {
+  border: 2px dashed #1a73e8;
+  border-radius: 12px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  min-height: 220px;
+  transition: all 0.3s ease;
+}
+
+.image-upload-wrapper:hover {
+  transform: translateY(-4px);
+  background-color: #e8f0fe;
+  border-color: #1a73e8;
+  box-shadow: 0 8px 20px rgba(26, 115, 232, 0.12);
+}
+
+.custom-preview-img {
+  max-height: 180px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+#btnRemoveImage {
+  width: 26px;
+  height: 26px;
+  line-height: 1;
+  padding: 0;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   Form Tương Tác & Nút Bấm
+   ========================================================================== */
+.form-control:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 0.25rem rgba(26, 115, 232, 0.15);
+}
+
+.btn-primary {
+  background-color: #1a73e8;
+  border-color: #1a73e8;
+  border-radius: 8px;
+  transition: 0.25s;
+}
+
+.btn-outline-primary {
+  color: #1a73e8;
+  border-color: #1a73e8;
+  border-radius: 8px;
+  transition: 0.25s;
+}
+
+.btn-primary:hover,
+.btn-outline-primary:hover {
+  transform: translateY(-2px);
+  background-color: #1557b0;
+  border-color: #1557b0;
+  box-shadow: 0 4px 10px rgba(26, 115, 232, 0.2);
+}
+
+.btn-light {
+  border-radius: 8px;
+  transition: 0.25s;
+}
+
+.btn-light:hover {
+  transform: translateY(-2px);
+  background-color: #e8f0fe;
+}
+
+/* ==========================================================================
+   Responsive Đa Thiết Bị
+   ========================================================================== */
+@media (min-width: 768px) {
+  .border-start-md {
+    border-left: 1px solid #dee2e6 !important;
+    padding-left: 2rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 70px; /* Responsive giữ khoảng hở gọn trên mobile */
+  }
+
+  body.sidebar-collapsed .main-content {
+    margin-left: 0px; /* Ẩn hoàn toàn sidebar thì nội dung tự tràn viền rộng 100% */
+  }
+
+  .page-header-banner {
+    padding: 1.5rem !important;
+  }
+
+  .page-header-banner h1 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .btn-action-group .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .btn-action-group {
+    flex-direction: column-reverse;
+  }
+}
