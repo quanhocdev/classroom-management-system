@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thêm Mới Môn Học | Admin</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- CSS Fragments & Custom Page CSS -->
+    <link rel="stylesheet" th:href="@{/css/fragments/sidebar-admin.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/quan-ly-mon-hoc.css}" />
+  </head>
+  <body class="bg-light d-flex flex-column min-vh-100">
+    <!-- Header Fragments -->
+    <div th:replace="~{fragments/header :: common-header}"></div>
+
+    <!-- Khung bố cục chính đồng bộ tương thích với cơ chế Sidebar dịch chuyển -->
+    <div class="d-flex flex-grow-1 app-layout">
+      <!-- Sidebar Fragments -->
+      <div th:replace="~{fragments/sidebar-admin :: sidebar}"></div>
+
+      <!-- Vùng nội dung chính (Co giãn động, dịch lề chuẩn xác) -->
+      <main class="main-content flex-grow-1 p-4">
+        <div class="container-fluid">
+          <!-- Page Title & Navigation Info -->
+          <div class="mb-4 p-4 page-header-banner shadow-sm">
+            <h1 class="text-dark fw-bold mb-1 fs-3">Quản lý môn học</h1>
+            <p class="text-muted mb-0">
+              Tạo mới môn học và lưu trữ hình ảnh trên Cloudinary.
+            </p>
+          </div>
+
+          <!-- Form Card Container -->
+          <div class="card custom-form-card shadow-sm">
+            <div class="card-header bg-white border-bottom p-3">
+              <h5
+                class="card-title fw-bold text-dark mb-0 d-flex align-items-center"
+              >
+                <span class="me-2">📚</span> Thông tin môn học mới
+              </h5>
+            </div>
+
+            <div class="card-body p-4">
+              <!-- Alert message boxes for dynamic tracking -->
+              <div id="alertContainer"></div>
+
+              <form id="createSubjectForm" enctype="multipart/form-data">
+                <div class="row g-4">
+                  <!-- Left Column: Text Data Info -->
+                  <div class="col-12 col-md-7 col-lg-8">
+                    <div class="mb-3">
+                      <label for="subjectCode" class="form-label fw-semibold">
+                        Mã môn học <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-content form-control"
+                        id="subjectCode"
+                        name="code"
+                        placeholder="Ví dụ: MAD101, PRO192..."
+                        required
+                      />
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="subjectName" class="form-label fw-semibold">
+                        Tên môn học <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-content form-control"
+                        id="subjectName"
+                        name="name"
+                        placeholder="Ví dụ: Toán rời rạc, Lập trình Java..."
+                        required
+                      />
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="subjectDesc" class="form-label fw-semibold">
+                        Mô tả môn học
+                      </label>
+                      <textarea
+                        class="form-content form-control"
+                        id="subjectDesc"
+                        name="description"
+                        rows="4"
+                        placeholder="Nhập tóm tắt nội dung môn học hoặc các thông tin lưu ý..."
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <!-- Right Column: Cloudinary Image Upload & Render Area -->
+                  <div class="col-12 col-md-5 col-lg-4 border-start-md">
+                    <div class="mb-3">
+                      <label class="form-label fw-semibold"
+                        >Hình ảnh đại diện</label
+                      >
+
+                      <!-- Drag and drop block wrapper zone -->
+                      <div
+                        class="image-upload-wrapper p-3 rounded-3 text-center bg-light border border-dashed d-flex flex-column align-items-center justify-content-center"
+                      >
+                        <div
+                          id="previewZone"
+                          class="d-none w-100 position-relative mb-2"
+                        >
+                          <img
+                            id="imagePreview"
+                            src=""
+                            alt="Preview Uploaded Asset"
+                            class="img-fluid rounded shadow-sm custom-preview-img"
+                          />
+                          <button
+                            type="button"
+                            id="btnRemoveImage"
+                            class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle"
+                          >
+                            ×
+                          </button>
+                        </div>
+
+                        <div id="uploadPrompt" class="py-3">
+                          <span class="fs-1 text-muted d-block mb-2">🖼️</span>
+                          <p class="small text-muted mb-2">
+                            Kéo thả hoặc nhấp chọn ảnh để tải lên
+                          </p>
+                          <input
+                            type="file"
+                            class="d-none"
+                            id="subjectImage"
+                            name="image"
+                            accept="image/*"
+                          />
+                          <button
+                            type="button"
+                            class="btn btn-outline-primary btn-sm"
+                            onclick="
+                              document.getElementById('subjectImage').click()
+                            "
+                          >
+                            Chọn File
+                          </button>
+                        </div>
+                      </div>
+                      <div class="form-text mt-2 text-muted small">
+                        Hỗ trợ các định dạng: JPG, PNG, WEBP. Ảnh sẽ được tự
+                        động đồng bộ lên máy chủ Cloud.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Form Buttons Row -->
+                <div class="row mt-4 pt-3 border-top">
+                  <div
+                    class="col-12 d-flex justify-content-end gap-2 btn-action-group"
+                  >
+                    <a
+                      href="/api/admin/subjects/danh-sach"
+                      class="btn btn-light border"
+                    >
+                      Hủy bỏ
+                    </a>
+                    <button
+                      type="submit"
+                      id="btnSubmit"
+                      class="btn btn-primary px-4 d-flex align-items-center"
+                    >
+                      <span
+                        id="submitSpinner"
+                        class="spinner-border spinner-border-sm me-2 d-none"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Lưu môn học
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Footer Fragments -->
+    <div th:replace="~{fragments/footer :: common-footer}"></div>
+
+    <!-- Script Dependencies Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/fragments/header.js}"></script>
+    <script th:src="@{/js/fragments/footer.js}"></script>
+    <script th:src="@{/js/fragments/sidebar-admin.js}"></script>
+    <script th:src="@{/js/admin/quan-ly-mon-hoc.js}"></script>
+  </body>
+</html>
